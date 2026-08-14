@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
+    "postinstall": "node scripts/patch-postcss-exports.js",
     "dev": "NODE_OPTIONS=--openssl-legacy-provider next dev",
     "build": "NODE_OPTIONS=--openssl-legacy-provider next build",
     "start": "NODE_OPTIONS=--openssl-legacy-provider next start",
@@ -30,21 +31,10 @@
   "devDependencies": {
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
-    "@types/react": "^17.0.3",
+    "@types/react": "17.0.3",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.4",
     "typescript": "^4.2.3",
     "yaml-loader": "^0.6.0"
-  },
-  "overrides": {
-    "postcss": "8.4.31",
-    "next": {
-      "cssnano-simple": {
-        "postcss": "7.0.35",
-        "cssnano-preset-simple": {
-          "postcss": "7.0.35"
-        }
-      }
-    }
   }
 }
