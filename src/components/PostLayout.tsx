@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import styles from "../../public/styles/content.module.css";
 import Author from "./Author";
 import Copyright from "./Copyright";
@@ -61,6 +62,9 @@ export default function PostLayout({
       />
       <div className={"container"}>
         <article>
+          <Link href="/posts" className="back-link">
+            ← Back to blog
+          </Link>
           <header>
             <h1>{title}</h1>
             <div className={"metadata"}>
@@ -102,6 +106,16 @@ export default function PostLayout({
             .metadata div {
               display: inline-block;
               margin-right: 0.5rem;
+            }
+            .back-link {
+              display: inline-block;
+              margin-bottom: 1.5rem;
+              color: #15847d;
+              font-weight: 600;
+              text-decoration: none;
+            }
+            .back-link:hover {
+              text-decoration: underline;
             }
             article {
               flex: 1 0 auto;
