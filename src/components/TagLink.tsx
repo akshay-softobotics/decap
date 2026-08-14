@@ -5,9 +5,5 @@ type Props = {
   tag: TagContent;
 };
 export default function Tag({ tag }: Props) {
-  return (
-    <Link href={"/posts/tags/[[...slug]]"} as={`/posts/tags/${tag.slug}`}>
-      <a>{"#" + tag.name}</a>
-    </Link>
-  );
+  return <Link href={`/posts/tags/${tag.slug}`}>{"#" + tag.name}</Link>;
 }

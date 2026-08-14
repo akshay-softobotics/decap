@@ -12,19 +12,25 @@ export default function Navigation() {
       <div className={"container " + (active ? "active" : "")}>
         <ul>
           <li>
-            <Link href="/">
-              <a className={router.pathname === "/" ? "active" : null}>about</a>
+            <Link
+              href="/"
+              className={
+                router.pathname === "/" ? "nav-link nav-link-active" : "nav-link"
+              }
+            >
+              about
             </Link>
           </li>
           <li>
-            <Link href="/posts">
-              <a
-                className={
-                  router.pathname.startsWith("/posts") ? "active" : null
-                }
-              >
-                blog
-              </a>
+            <Link
+              href="/posts"
+              className={
+                router.pathname.startsWith("/posts")
+                  ? "nav-link nav-link-active"
+                  : "nav-link"
+              }
+            >
+              blog
             </Link>
           </li>
         </ul>
@@ -63,9 +69,6 @@ export default function Navigation() {
             li:last-child {
               margin-bottom: 0;
             }
-            .active {
-              color: #222;
-            }
 
             @media (min-width: 769px) {
               .container {
@@ -77,7 +80,6 @@ export default function Navigation() {
                 width: 7rem;
                 top: auto;
                 display: block;
-                transform: translateY(0);
               }
               li {
                 font-size: 1rem;
@@ -86,6 +88,11 @@ export default function Navigation() {
             }
           `}
         </style>
+        <style jsx global>{`
+          .nav-link-active {
+            color: #222;
+          }
+        `}</style>
       </div>
     </>
   );

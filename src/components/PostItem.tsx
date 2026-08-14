@@ -8,23 +8,23 @@ type Props = {
 };
 export default function PostItem({ post }: Props) {
   return (
-    <Link href={"/posts/" + post.slug}>
-      <a>
-        <Date date={parseISO(post.date)} />
-        <h2>{post.title}</h2>
-        <style jsx>
-          {`
-            a {
-              color: #222;
-              display: inline-block;
-            }
-            h2 {
-              margin: 0;
-              font-weight: 500;
-            }
-          `}
-        </style>
-      </a>
+    <Link href={"/posts/" + post.slug} className="post-item-link">
+      <Date date={parseISO(post.date)} />
+      <h2>{post.title}</h2>
+      <style jsx>
+        {`
+          h2 {
+            margin: 0;
+            font-weight: 500;
+          }
+        `}
+      </style>
+      <style jsx global>{`
+        .post-item-link {
+          color: #222;
+          display: inline-block;
+        }
+      `}</style>
     </Link>
   );
 }

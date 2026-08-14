@@ -6,7 +6,6 @@ type Props = {
   pages: number;
   link: {
     href: (page: number) => string;
-    as: (page: number) => string;
   };
 };
 export default function Pagination({ current, pages, link }: Props) {
@@ -18,8 +17,13 @@ export default function Pagination({ current, pages, link }: Props) {
           {it.excerpt ? (
             "..."
           ) : (
-            <Link href={link.href(it.page)} as={link.as(it.page)}>
-              <a className={it.page === current ? "active" : null}>{it.page}</a>
+            <Link
+              href={link.href(it.page)}
+              className={
+                it.page === current ? "pagination-link pagination-active" : "pagination-link"
+              }
+            >
+              {it.page}
             </Link>
           )}
         </li>
@@ -36,7 +40,9 @@ export default function Pagination({ current, pages, link }: Props) {
           color: #9b9b9b;
           font-size: 1.25rem;
         }
-        a.active {
+      `}</style>
+      <style jsx global>{`
+        .pagination-active {
           color: #222;
           font-weight: bold;
         }
