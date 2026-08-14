@@ -127,10 +127,12 @@ collections:
     slug: "{{slug}}"
     identifier_field: slug
     summary: "{{title}}"
+    preview_path: "posts/{{slug}}"
     fields:
       - label: "Slug"
         name: "slug"
         widget: "string"
+        hint: "Bare slug only, must exactly match the URL path segment, e.g. \"welcome\" (not \"/welcome\" or a full URL)."
       - label: "Title"
         name: "title"
         widget: "string"
