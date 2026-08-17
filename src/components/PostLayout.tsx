@@ -2,14 +2,12 @@ import React from "react";
 import Link from "next/link";
 import styles from "../../public/styles/content.module.css";
 import Author from "./Author";
-import Copyright from "./Copyright";
 import Date from "./Date";
 import Layout from "./Layout";
 import BasicMeta from "./meta/BasicMeta";
 import JsonLdMeta from "./meta/JsonLdMeta";
 import OpenGraphMeta from "./meta/OpenGraphMeta";
 import TwitterCardMeta from "./meta/TwitterCardMeta";
-import { SocialList } from "./SocialList";
 import TagButton from "./TagButton";
 import { getAuthor } from "../lib/authors";
 import { getTag } from "../lib/tags";
@@ -85,12 +83,6 @@ export default function PostLayout({
             ))}
           </ul>
         </article>
-        <footer>
-          <div className={"social-list"}>
-            <SocialList />
-          </div>
-          <Copyright />
-        </footer>
       </div>
       <style jsx>
         {`
@@ -110,8 +102,10 @@ export default function PostLayout({
             .back-link {
               display: inline-block;
               margin-bottom: 1.5rem;
-              color: #15847d;
-              font-weight: 600;
+              font-family: var(--font-mono);
+              font-size: 0.875rem;
+              color: var(--color-accent);
+              font-weight: 500;
               text-decoration: none;
             }
             .back-link:hover {
@@ -122,7 +116,10 @@ export default function PostLayout({
             }
             h1 {
               margin: 0 0 0.5rem;
+              font-family: var(--font-display);
+              font-weight: 600;
               font-size: 2.25rem;
+              line-height: 1.2;
             }
             .tag-list {
               list-style: none;
@@ -133,10 +130,6 @@ export default function PostLayout({
             .tag-list li {
               display: inline-block;
               margin-left: 0.5rem;
-            }
-            .social-list {
-              margin-top: 3rem;
-              text-align: center;
             }
 
             @media (min-width: 769px) {

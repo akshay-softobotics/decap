@@ -44,12 +44,7 @@ export default function Navigation() {
           justify-content: space-between;
           padding: 1.25rem 1.5rem;
           position: relative;
-        }
-        .brand {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #15847d;
-          text-decoration: none;
+          border-bottom: 1px solid var(--color-border);
         }
         ul {
           opacity: 0;
@@ -64,7 +59,7 @@ export default function Navigation() {
           position: fixed;
           top: 0;
           left: 0;
-          background-color: #fff;
+          background-color: var(--color-paper);
           display: flex;
           flex-direction: column;
           z-index: 1;
@@ -103,12 +98,19 @@ export default function Navigation() {
         }
       `}</style>
       <style jsx global>{`
+        .brand {
+          font-family: var(--font-display);
+          font-size: 1.375rem;
+          font-weight: 600;
+          color: var(--color-ink);
+          text-decoration: none;
+        }
         .nav-link {
-          color: #222;
+          color: var(--color-ink);
           text-decoration: none;
         }
         .nav-link-active {
-          color: #15847d;
+          color: var(--color-accent);
           font-weight: 700;
         }
       `}</style>

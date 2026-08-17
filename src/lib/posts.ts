@@ -11,7 +11,33 @@ export type PostContent = {
   readonly slug: string;
   readonly tags?: string[];
   readonly fullPath: string;
+  readonly excerpt: string;
+  readonly readTimeMinutes: number;
 };
+
+const WORDS_PER_MINUTE = 200;
+const EXCERPT_LENGTH = 140;
+
+function toExcerpt(rawBody: string): string {
+  const plain = rawBody
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/[#>*_`~-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (plain.length <= EXCERPT_LENGTH) {
+    return plain;
+  }
+  const truncated = plain.slice(0, EXCERPT_LENGTH);
+  return truncated.slice(0, truncated.lastIndexOf(" ")) + "…";
+}
+
+function toReadTimeMinutes(rawBody: string): number {
+  const words = rawBody.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+}
 
 let postCache: PostContent[];
 
@@ -39,9 +65,13 @@ export function fetchPostContent(): PostContent[] {
         title: string;
         tags: string[];
         slug: string;
-        fullPath: string,
+        fullPath: string;
+        excerpt: string;
+        readTimeMinutes: number;
       };
       matterData.fullPath = fullPath;
+      matterData.excerpt = toExcerpt(matterResult.content);
+      matterData.readTimeMinutes = toReadTimeMinutes(matterResult.content);
 
       const slug = fileName.replace(/\.mdx$/, "");
 

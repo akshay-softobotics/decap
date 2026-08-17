@@ -1,12 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --color-paper: #f7f5f0;
+  --color-surface: #fffdf9;
+  --color-ink: #1c1b1a;
+  --color-muted: #8a8578;
+  --color-border: #e7e3da;
+  --color-accent: #3454d1;
+  --color-accent-dim: rgba(52, 84, 209, 0.1);
+  --color-cta: #e1622f;
+  --color-cta-hover: #c94f20;
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Ubuntu", sans-serif;
+  --font-mono: "IBM Plex Mono", "Ubuntu Mono", monospace;
+}
 
 html,
 body {
-  font-family: "Ubuntu", sans-serif;
-  background-color: #fff;
-  color: #222;
-  font-weight: 200;
+  font-family: var(--font-body);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-weight: 300;
   height: 100%;
 }
 
@@ -15,14 +32,14 @@ body {
 }
 
 a {
-  color: #9b9b9b;
+  color: var(--color-accent);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 a:active,
 a:hover {
-  color: #000;
+  color: var(--color-ink);
 }
 
 .youtube-container {

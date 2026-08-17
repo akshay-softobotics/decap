@@ -41,32 +41,44 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
             margin: 0 auto;
             max-width: 1200px;
             width: 100%;
-            padding: 0 1.5rem;
+            padding: 2.5rem 1.5rem 4rem;
             display: flex;
             flex-direction: column;
           }
           h1 {
             margin: 0 0 2rem;
             padding: 0;
-            font-weight: 100;
+            font-family: var(--font-display);
+            font-weight: 500;
             font-size: 1.75rem;
-            color: #9b9b9b;
+            color: var(--color-muted);
           }
           h1 span {
-            font-weight: bold;
-            color: #222;
+            font-weight: 600;
+            color: var(--color-ink);
           }
           ul {
-            margin: 0;
+            margin: 0 0 2rem;
             padding: 0;
             flex: 1 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
           }
           li {
             list-style: none;
-            margin-bottom: 1.5rem;
           }
 
-          @media (min-width: 769px) {
+          @media (min-width: 640px) {
+            ul {
+              grid-template-columns: repeat(2, 1fr);
+            }
+          }
+
+          @media (min-width: 1024px) {
+            ul {
+              grid-template-columns: repeat(3, 1fr);
+            }
             h1 {
               font-size: 2rem;
             }

@@ -31,19 +31,23 @@ export default function Pagination({ current, pages, link }: Props) {
       <style jsx>{`
         ul {
           list-style: none;
-          margin: 3rem 0 0 0;
+          margin: 1rem 0 0 0;
           padding: 0;
+          font-family: var(--font-mono);
         }
         li {
           display: inline-block;
           margin-right: 1em;
-          color: #9b9b9b;
-          font-size: 1.25rem;
+          color: var(--color-muted);
+          font-size: 1rem;
         }
       `}</style>
       <style jsx global>{`
+        .pagination-link {
+          color: var(--color-muted);
+        }
         .pagination-active {
-          color: #222;
+          color: var(--color-accent);
           font-weight: bold;
         }
       `}</style>

@@ -6,19 +6,33 @@ import OpenGraphMeta from "../../../components/meta/OpenGraphMeta";
 import TwitterCardMeta from "../../../components/meta/TwitterCardMeta";
 import PostList from "../../../components/PostList";
 import config from "../../../lib/config";
-import { countPosts, listPostContent, PostContent } from "../../../lib/posts";
+import {
+  countPosts,
+  fetchPostContent,
+  listPostContent,
+  PostContent,
+} from "../../../lib/posts";
 import { listTags, TagContent } from "../../../lib/tags";
 
 type Props = {
   posts: PostContent[];
-  tags: TagContent[];
+  allPosts: PostContent[];
+  popularPosts: PostContent[];
+  tagCounts: { tag: TagContent; count: number }[];
   page: number;
   pagination: {
     current: number;
     pages: number;
   };
 };
-export default function Page({ posts, tags, pagination, page }: Props) {
+export default function Page({
+  posts,
+  allPosts,
+  popularPosts,
+  tagCounts,
+  pagination,
+  page,
+}: Props) {
   const url = `/posts/page/${page}`;
   const title = "All posts";
   return (
@@ -26,7 +40,13 @@ export default function Page({ posts, tags, pagination, page }: Props) {
       <BasicMeta url={url} title={title} />
       <OpenGraphMeta url={url} title={title} />
       <TwitterCardMeta url={url} title={title} />
-      <PostList posts={posts} tags={tags} pagination={pagination} />
+      <PostList
+        posts={posts}
+        allPosts={allPosts}
+        popularPosts={popularPosts}
+        tagCounts={tagCounts}
+        pagination={pagination}
+      />
     </Layout>
   );
 }
@@ -34,7 +54,9 @@ export default function Page({ posts, tags, pagination, page }: Props) {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const page = parseInt(params.page as string);
   const posts = listPostContent(page, config.posts_per_page);
+  const allPosts = fetchPostContent();
   const tags = listTags();
+  const tagCounts = tags.map((tag) => ({ tag, count: countPosts(tag.slug) }));
   const pagination = {
     current: page,
     pages: Math.ceil(countPosts() / config.posts_per_page),
@@ -43,7 +65,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       page,
       posts,
-      tags,
+      allPosts,
+      popularPosts: allPosts.slice(0, 3),
+      tagCounts,
       pagination,
     },
   };
