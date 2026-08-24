@@ -4,7 +4,7 @@ backend:
   repo: akshay-softobotics/decap
   branch: master
   auth_type: pkce
-  base_url: https://auth.softobotics.com/sites/79260e97-e3ad-47b7-aa37-c51f65953340
+  base_url: https://auth.softobotics.com
   auth_endpoint: /sites/f0fa5e8c-a101-4387-b320-575294f99051/pkce
   auth_token_endpoint: /sites/f0fa5e8c-a101-4387-b320-575294f99051/token
   gateway_url: https://gateway.softobotics.com
