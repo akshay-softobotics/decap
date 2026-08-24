@@ -10,6 +10,10 @@ export default function PostCover({ post, variant = "card" }: Props) {
   const isThumb = variant === "thumb";
   const isLarge = variant === "large";
 
+  if (isLarge && !post.coverImage) {
+    return null;
+  }
+
   if (post.coverImage) {
     return (
       <div className={`cover image ${variant}`}>

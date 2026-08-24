@@ -77,11 +77,21 @@ export default function PostLayout({
         date={date}
         readTimeMinutes={readTimeMinutes}
       />
-      <div className="cover-wrap">
-        <PostCover post={{ slug, title, coverImage } as PostContent} variant="large" />
-      </div>
+      {coverImage && (
+        <div className="cover-wrap">
+          <PostCover post={{ slug, title, coverImage } as PostContent} variant="large" />
+        </div>
+      )}
       <article ref={articleRef} className="article-body">
         <div className="layout">
+          {headings.length > 0 && (
+            <div className="toc-mobile">
+              <details>
+                <summary>On this page</summary>
+                <TableOfContents headings={headings} />
+              </details>
+            </div>
+          )}
           {headings.length > 0 && (
             <aside className="toc-rail">
               <TableOfContents headings={headings} />
@@ -107,29 +117,60 @@ export default function PostLayout({
       <style jsx>
         {`
           .cover-wrap {
-            max-width: 60rem;
-            margin: 2.5rem auto 0;
+            max-width: var(--content-width);
+            margin: 2rem auto 0;
             padding: 0 1.5rem;
           }
           .article-body {
-            padding: 3rem 1.5rem 0;
+            padding: 2rem 1.5rem 0;
           }
           .layout {
-            max-width: 46rem;
+            max-width: var(--content-width);
             margin: 0 auto;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             gap: 3rem;
           }
           .content-col {
             min-width: 0;
-            flex: 1 1 auto;
+            width: 100%;
+            max-width: 48rem;
+            margin: 0 auto;
+          }
+          .toc-mobile {
+            width: 100%;
+            max-width: 48rem;
+            margin: 0 auto;
+          }
+          .toc-mobile summary {
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--color-muted);
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+          }
+          .toc-mobile details[open] summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+          .toc-mobile :global(.toc) {
+            padding: 0.5rem 1rem 1rem;
+            border: 1px solid var(--color-border);
+            border-top: none;
+            border-bottom-left-radius: var(--radius-sm);
+            border-bottom-right-radius: var(--radius-sm);
           }
           .toc-rail {
             display: none;
           }
           .tags-share {
-            margin-top: 3rem;
-            padding-top: 1.75rem;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
             border-top: 1px solid var(--color-border);
             display: flex;
             align-items: center;
@@ -151,8 +192,11 @@ export default function PostLayout({
 
           @media (min-width: 1024px) {
             .layout {
-              max-width: 62rem;
+              flex-direction: row;
               align-items: flex-start;
+            }
+            .toc-mobile {
+              display: none;
             }
             .toc-rail {
               display: block;
@@ -161,7 +205,7 @@ export default function PostLayout({
             }
             .content-col {
               order: 1;
-              max-width: 46rem;
+              margin: 0;
             }
           }
         `}

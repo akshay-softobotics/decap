@@ -44,9 +44,9 @@ export default function ArticleHeader({
       </div>
       <style jsx>{`
         .article-header {
-          max-width: 46rem;
+          max-width: 48rem;
           margin: 0 auto;
-          padding: 6rem 1.5rem 0;
+          padding: 3.5rem 1.5rem 0;
           text-align: left;
         }
         :global(.back-link) {

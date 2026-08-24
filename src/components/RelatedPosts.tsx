@@ -25,8 +25,8 @@ export default function RelatedPosts({ posts, title = "More from the blog" }: Pr
       </div>
       <style jsx>{`
         .related {
-          margin-top: 5rem;
-          padding: 4rem 1.5rem;
+          margin-top: 3rem;
+          padding: 3rem 1.5rem;
           border-top: 1px solid var(--color-border);
         }
         .inner {
