@@ -34,8 +34,18 @@ export default function PostNav({ previous, next }: Props) {
           grid-template-columns: 1fr 1fr;
           gap: 1rem;
           margin: 3rem auto 0;
-          max-width: 46rem;
+          max-width: 48rem;
           padding: 0 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+          .post-nav {
+            grid-template-columns: 1fr;
+          }
+          :global(.nav-card.next) {
+            text-align: left;
+            align-items: flex-start;
+          }
         }
         :global(.nav-card) {
           display: flex;

@@ -6,96 +6,82 @@ type Props = {
 export default function BlogHero({ query, onQueryChange }: Props) {
   return (
     <div className="hero">
-      <div className="copy">
-        <span className="eyebrow">Our Blog</span>
-        <h1>Insights, Ideas &amp; Stories</h1>
-        <p>
-          Explore practical insights, expert perspectives, guides and ideas
-          on building and shipping better products.
-        </p>
-        <div className="search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <circle cx="10.5" cy="10.5" r="6.5" />
-            <path d="M20 20l-5-5" strokeLinecap="round" />
-          </svg>
-          <input
-            type="search"
-            placeholder="Search posts…"
-            value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
-            aria-label="Search posts"
-          />
-        </div>
+      <span className="kicker">Explore our articles</span>
+      <h1>Insights &amp; Ideas</h1>
+      <p>
+        Stories, guides, and practical ideas to help you build better digital
+        products.
+      </p>
+      <div className="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="M20 20l-5-5" strokeLinecap="round" />
+        </svg>
+        <input
+          type="search"
+          placeholder="Search articles…"
+          value={query}
+          onChange={(e) => onQueryChange(e.target.value)}
+          aria-label="Search posts"
+        />
       </div>
-      <svg className="illustration" viewBox="0 0 220 180" fill="none" aria-hidden="true">
-        <circle cx="150" cy="70" r="62" fill="var(--color-accent-dim)" />
-        {[0, 1, 2, 3].map((row) =>
-          [0, 1, 2, 3].map((col) => (
-            <circle
-              key={`${row}-${col}`}
-              cx={172 + col * 10}
-              cy={18 + row * 10}
-              r="1.4"
-              fill="var(--color-border)"
-            />
-          ))
-        )}
-        <rect x="18" y="24" width="144" height="120" rx="8" fill="var(--color-surface)" stroke="var(--color-border)" />
-        <circle cx="32" cy="38" r="2.5" fill="var(--color-cta)" />
-        <circle cx="41" cy="38" r="2.5" fill="var(--color-border)" />
-        <circle cx="50" cy="38" r="2.5" fill="var(--color-border)" />
-        <rect x="30" y="52" width="26" height="26" rx="4" fill="var(--color-accent)" />
-        <text x="38" y="70" fontFamily="var(--font-display)" fontSize="16" fill="#fff">T</text>
-        <rect x="66" y="56" width="80" height="6" rx="3" fill="var(--color-border)" />
-        <rect x="66" y="68" width="60" height="6" rx="3" fill="var(--color-border)" />
-        <rect x="30" y="92" width="90" height="6" rx="3" fill="var(--color-border)" />
-        <rect x="30" y="104" width="70" height="6" rx="3" fill="var(--color-border)" />
-        <rect x="106" y="90" width="40" height="30" rx="4" fill="var(--color-accent-dim)" />
-        <circle cx="118" cy="102" r="4" fill="var(--color-cta)" />
-        <path d="M108 116l10-10 8 8 8-6 10 8" stroke="var(--color-accent)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
       <style jsx>{`
         .hero {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 3rem;
-          padding: 4.5rem 1.5rem 3rem;
+          padding: 6rem 1.5rem 3.5rem;
           max-width: var(--content-width);
           margin: 0 auto;
+          display: flex;
+          flex-direction: column;
         }
-        .copy {
-          max-width: 32rem;
+        .kicker {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6em;
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
+          font-weight: 500;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--color-cta);
+          margin-bottom: 1.5rem;
         }
-        .copy :global(.eyebrow) {
-          margin-bottom: 1.1rem;
+        .kicker::before {
+          content: "";
+          display: inline-block;
+          width: 1.5em;
+          height: 2px;
+          background: currentColor;
         }
         h1 {
           font-family: var(--font-display);
-          font-size: clamp(2.25rem, 4.5vw, 3rem);
+          font-size: clamp(2.75rem, 7vw, 5rem);
           font-weight: 600;
           margin: 0;
-          letter-spacing: -0.01em;
-          line-height: 1.15;
+          letter-spacing: -0.02em;
+          line-height: 1.02;
+          max-width: 20ch;
         }
         p {
           color: var(--color-muted);
-          margin: 1rem 0 1.75rem;
+          margin: 1.5rem 0 0;
+          max-width: 34rem;
+          font-size: 1.125rem;
           line-height: 1.6;
         }
         .search {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          background: var(--color-surface);
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-sm);
-          padding: 0.7rem 1rem;
+          background: transparent;
+          border-bottom: 1px solid var(--color-border);
+          padding: 0.7rem 0;
+          width: 100%;
           max-width: 22rem;
+          margin-top: 2.5rem;
           transition: border-color 0.2s ease;
         }
         .search:focus-within {
-          border-color: var(--color-accent);
+          border-color: var(--color-ink);
         }
         .search svg {
           width: 1.1rem;
@@ -115,16 +101,10 @@ export default function BlogHero({ query, onQueryChange }: Props) {
         .search input::placeholder {
           color: var(--color-muted);
         }
-        .illustration {
-          width: 14rem;
-          height: auto;
-          flex-shrink: 0;
-          display: none;
-        }
 
-        @media (min-width: 900px) {
-          .illustration {
-            display: block;
+        @media (min-width: 768px) {
+          .hero {
+            padding: 7.5rem 1.5rem 4rem;
           }
         }
       `}</style>

@@ -26,7 +26,7 @@ export default function Author({ author, withAvatar = false }: Props) {
             justify-content: center;
             width: 1.75rem;
             height: 1.75rem;
-            border-radius: 50%;
+            border-radius: var(--radius-sm);
             background: var(--color-accent-dim);
             color: var(--color-accent);
             font-family: var(--font-display);

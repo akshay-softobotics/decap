@@ -1,8 +1,8 @@
 .content {
   font-family: var(--font-body);
   color: var(--color-ink);
-  font-weight: 300;
-  font-size: 1.0625rem;
+  font-weight: 400;
+  font-size: 1.125rem;
 }
 
 .content time {
@@ -10,8 +10,8 @@
 }
 
 .content p {
-  line-height: 1.75rem;
-  margin: 1.5rem 0 0 0;
+  line-height: 1.85rem;
+  margin: 1.65rem 0 0 0;
 }
 
 .content a {
@@ -142,7 +142,12 @@
 
 .content ol li,
 .content ul li {
-  line-height: 1.75rem;
+  line-height: 1.85rem;
+}
+
+.content ol li + li,
+.content ul li + li {
+  margin-top: 0.4rem;
 }
 
 .content li ol,
