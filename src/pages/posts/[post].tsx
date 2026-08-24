@@ -123,15 +123,19 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const allPosts = fetchPostContent();
   const index = allPosts.findIndex((it) => it.slug === slug);
-  const previous = index >= 0 && index < allPosts.length - 1 ? allPosts[index + 1] : null;
-  const next = index > 0 ? allPosts[index - 1] : null;
+  const rawPrevious = index >= 0 && index < allPosts.length - 1 ? allPosts[index + 1] : null;
+  const rawNext = index > 0 ? allPosts[index - 1] : null;
+  const previous = rawPrevious ? { ...rawPrevious, tags: rawPrevious.tags ?? [] } : null;
+  const next = rawNext ? { ...rawNext, tags: rawNext.tags ?? [] } : null;
 
   const currentTags: string[] = data.tags ?? [];
   const sameCategory = allPosts.filter(
     (it) => it.slug !== slug && it.tags?.some((t) => currentTags.includes(t))
   );
   const fallbackRecent = allPosts.filter((it) => it.slug !== slug);
-  const related = (sameCategory.length > 0 ? sameCategory : fallbackRecent).slice(0, 3);
+  const related = (sameCategory.length > 0 ? sameCategory : fallbackRecent)
+    .slice(0, 3)
+    .map((it) => ({ ...it, tags: it.tags ?? [] }));
 
   return {
     props: {
@@ -141,7 +145,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       description: data.description ?? slugToPostContent[slug].excerpt ?? "",
       coverImage: slugToPostContent[slug].coverImage ?? null,
       readTimeMinutes: slugToPostContent[slug].readTimeMinutes,
-      tags: data.tags,
+      tags: currentTags,
       author: data.author,
       headings: extractHeadings(content),
       previous,
