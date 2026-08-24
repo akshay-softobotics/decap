@@ -25,7 +25,9 @@ export default function FeaturedPost({ post, eyebrow = "Featured" }: Props) {
         <span className="eyebrow">{eyebrow}</span>
         {primaryTag && <span className="category">{primaryTag.name}</span>}
         <h2>
-          <Link href={"/posts/" + post.slug}>{post.title}</Link>
+          <Link href={"/posts/" + post.slug} className="title-link">
+            {post.title}
+          </Link>
         </h2>
         {post.excerpt && <p className="excerpt">{post.excerpt}</p>}
         <div className="meta">
@@ -48,8 +50,9 @@ export default function FeaturedPost({ post, eyebrow = "Featured" }: Props) {
           overflow: hidden;
           padding: 1.25rem;
         }
-        .media {
+        :global(.media) {
           display: block;
+          overflow: hidden;
         }
         .body {
           display: flex;
@@ -75,7 +78,7 @@ export default function FeaturedPost({ post, eyebrow = "Featured" }: Props) {
           font-size: clamp(1.5rem, 3.2vw, 2.125rem);
           line-height: 1.2;
         }
-        h2 a {
+        :global(.title-link) {
           color: var(--color-ink);
         }
         .excerpt {
@@ -104,10 +107,10 @@ export default function FeaturedPost({ post, eyebrow = "Featured" }: Props) {
             align-items: stretch;
             padding: 1.5rem;
           }
-          .media {
+          :global(.media) {
             flex: 1 1 46%;
           }
-          .media :global(.cover) {
+          :global(.media .cover) {
             height: 100%;
           }
           .body {

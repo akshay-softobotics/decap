@@ -28,7 +28,9 @@ export default function Layout({ children }: Props) {
           }
           main {
             display: flex;
+            flex-direction: column;
             flex: 1 0 auto;
+            min-width: 0;
           }
         `}
       </style>

@@ -51,18 +51,18 @@ export default function ArticleHeader({
           padding: 3rem 1.5rem 0;
           text-align: left;
         }
-        .back-link {
-          display: inline-block;
+        :global(.back-link) {
+          display: block;
           margin-bottom: 1.75rem;
           font-family: var(--font-mono);
           font-size: 0.875rem;
           color: var(--color-accent);
           font-weight: 500;
         }
-        .back-link:hover {
+        :global(.back-link:hover) {
           text-decoration: underline;
         }
-        .category {
+        :global(.category) {
           display: inline-block;
           font-family: var(--font-mono);
           font-size: 0.75rem;

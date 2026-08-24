@@ -35,6 +35,7 @@ export default function PostCover({ post, variant = "card" }: Props) {
         <img src={post.coverImage} alt="" />
         <style jsx>{`
           .cover {
+            width: 100%;
             overflow: hidden;
             border-radius: 0.25rem 0.25rem 0 0;
           }
@@ -67,6 +68,7 @@ export default function PostCover({ post, variant = "card" }: Props) {
       <span className="label">{isThumb ? label.slice(0, 2) : label}</span>
       <style jsx>{`
         .cover {
+          width: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
