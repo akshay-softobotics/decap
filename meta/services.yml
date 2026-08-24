@@ -1,0 +1,45 @@
+services:
+  - slug: consulting
+    icon: consulting
+    title: Consulting
+    description: Strategic guidance to help you make the right calls before you write a line of code.
+    detail:
+      Our consultants sit with your team to map the problem, weigh the
+      trade-offs and hand you a plan you can actually execute — not a slide
+      deck that gathers dust.
+  - slug: digital-solutions
+    icon: digital
+    title: Digital Solutions
+    description: End-to-end digital products built for the way your customers actually work.
+    detail:
+      From internal tools to customer-facing platforms, we design and ship
+      digital solutions that fit your existing systems instead of fighting
+      them.
+  - slug: strategy
+    icon: strategy
+    title: Strategy
+    description: A clear roadmap that connects today's decisions to tomorrow's goals.
+    detail:
+      We turn ambiguous goals into a sequenced plan — what to build first,
+      what to defer, and how to measure whether it worked.
+  - slug: technology
+    icon: technology
+    title: Technology
+    description: Modern, maintainable architecture chosen for your team, not for the resume.
+    detail:
+      We pick the simplest stack that solves the problem well, then document
+      it so the next engineer can pick it up without a handoff call.
+  - slug: design
+    icon: design
+    title: Design
+    description: Interfaces that are easy to use on the first try and pleasant on the hundredth.
+    detail:
+      Every screen starts from the task a person is trying to finish, not
+      from a component library — the design follows the work.
+  - slug: development
+    icon: development
+    title: Development
+    description: Production-grade engineering with tests, reviews and documentation included.
+    detail:
+      We build the way we'd want to inherit code — small commits, real test
+      coverage, and nothing left as "TODO" at handoff.

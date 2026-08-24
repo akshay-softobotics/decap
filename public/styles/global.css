@@ -13,9 +13,29 @@
   --color-accent-dim: rgba(52, 84, 209, 0.1);
   --color-cta: #e1622f;
   --color-cta-hover: #c94f20;
+  --color-ink-section: #1c1b1a;
+  --color-on-ink: #f7f5f0;
+  --color-on-ink-muted: rgba(247, 245, 240, 0.64);
+  --color-on-ink-border: rgba(247, 245, 240, 0.16);
+
   --font-display: "Fraunces", "Georgia", serif;
   --font-body: "Ubuntu", sans-serif;
   --font-mono: "IBM Plex Mono", "Ubuntu Mono", monospace;
+
+  --shadow-sm: 0 1px 2px rgba(28, 27, 26, 0.05), 0 1px 1px rgba(28, 27, 26, 0.04);
+  --shadow-md: 0 8px 24px rgba(28, 27, 26, 0.08), 0 2px 6px rgba(28, 27, 26, 0.05);
+  --shadow-lg: 0 24px 48px rgba(28, 27, 26, 0.14), 0 8px 16px rgba(28, 27, 26, 0.06);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 22px;
+
+  --content-width: 1200px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html,
@@ -25,6 +45,7 @@ body {
   color: var(--color-ink);
   font-weight: 300;
   height: 100%;
+  overflow-x: hidden;
 }
 
 #__next {
@@ -40,6 +61,95 @@ a {
 a:active,
 a:hover {
   color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-cta);
+}
+
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.5em;
+  height: 2px;
+  background: currentColor;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-cta);
+  color: #fff;
+  font-weight: 500;
+  padding: 0.85em 1.85em;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-cta-hover);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: var(--color-ink);
+  font-weight: 500;
+  padding: 0.85em 1.85em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-ink);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .youtube-container {

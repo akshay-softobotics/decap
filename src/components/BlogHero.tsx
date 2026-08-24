@@ -7,10 +7,11 @@ export default function BlogHero({ query, onQueryChange }: Props) {
   return (
     <div className="hero">
       <div className="copy">
-        <h1>Insights &amp; ideas</h1>
+        <span className="eyebrow">Our Blog</span>
+        <h1>Insights, Ideas &amp; Stories</h1>
         <p>
-          Thoughts on development, writing, and shipping. Guides and
-          notes from building this template.
+          Explore practical insights, expert perspectives, guides and ideas
+          on building and shipping better products.
         </p>
         <div className="search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -59,19 +60,23 @@ export default function BlogHero({ query, onQueryChange }: Props) {
           align-items: center;
           justify-content: space-between;
           gap: 3rem;
-          padding: 3.5rem 1.5rem 3rem;
-          max-width: 1200px;
+          padding: 4.5rem 1.5rem 3rem;
+          max-width: var(--content-width);
           margin: 0 auto;
         }
         .copy {
           max-width: 32rem;
         }
+        .copy :global(.eyebrow) {
+          margin-bottom: 1.1rem;
+        }
         h1 {
           font-family: var(--font-display);
-          font-size: clamp(2rem, 4.5vw, 2.75rem);
+          font-size: clamp(2.25rem, 4.5vw, 3rem);
           font-weight: 600;
           margin: 0;
           letter-spacing: -0.01em;
+          line-height: 1.15;
         }
         p {
           color: var(--color-muted);
@@ -84,9 +89,13 @@ export default function BlogHero({ query, onQueryChange }: Props) {
           gap: 0.6rem;
           background: var(--color-surface);
           border: 1px solid var(--color-border);
-          border-radius: 0.5rem;
+          border-radius: var(--radius-sm);
           padding: 0.7rem 1rem;
           max-width: 22rem;
+          transition: border-color 0.2s ease;
+        }
+        .search:focus-within {
+          border-color: var(--color-accent);
         }
         .search svg {
           width: 1.1rem;

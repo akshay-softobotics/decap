@@ -4,7 +4,13 @@ type Props = {
 };
 export default function Burger({ active, onClick }: Props) {
   return (
-    <div className={"container " + (active ? "active" : "")} onClick={onClick}>
+    <button
+      type="button"
+      className={"container " + (active ? "active" : "")}
+      onClick={onClick}
+      aria-label={active ? "Close menu" : "Open menu"}
+      aria-expanded={active}
+    >
       <div className={"meat meat-1"} />
       <div className={"meat meat-2"} />
       <div className={"meat meat-3"} />
@@ -15,16 +21,19 @@ export default function Burger({ active, onClick }: Props) {
             width: 38px;
             height: 38px;
             cursor: pointer;
-            top: 1rem;
+            top: 0.85rem;
             right: 1.25rem;
-            z-index: 2;
-            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 50;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: 0;
           }
           .meat {
             position: absolute;
             width: 28px;
             height: 2px;
-            background: #222;
+            background: var(--color-ink);
             top: calc(50% - 2px / 2);
             left: calc(50% - 28px / 2);
             transition: all 150ms ease-in;
@@ -55,6 +64,6 @@ export default function Burger({ active, onClick }: Props) {
           }
         `}
       </style>
-    </div>
+    </button>
   );
 }

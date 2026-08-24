@@ -1,0 +1,21 @@
+features:
+  - icon: team
+    title: Experienced Team
+    description:
+      Senior consultants and engineers who've shipped this kind of work
+      before, not generalists learning on your dime.
+  - icon: technology
+    title: Modern Technology
+    description:
+      We reach for boring, proven tools where it counts and modern ones
+      where they earn their place — never the reverse.
+  - icon: delivery
+    title: Reliable Delivery
+    description:
+      Fixed milestones and weekly check-ins mean you can see months out,
+      with no surprise slippage at the end.
+  - icon: focus
+    title: Customer Focused
+    description:
+      You get a direct line to the people doing the work, not a
+      rotating cast of account managers.

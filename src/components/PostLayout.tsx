@@ -1,16 +1,22 @@
-import React from "react";
-import Link from "next/link";
+import React, { useRef } from "react";
 import styles from "../../public/styles/content.module.css";
-import Author from "./Author";
-import Date from "./Date";
+import ArticleHeader from "./ArticleHeader";
 import Layout from "./Layout";
 import BasicMeta from "./meta/BasicMeta";
 import JsonLdMeta from "./meta/JsonLdMeta";
 import OpenGraphMeta from "./meta/OpenGraphMeta";
 import TwitterCardMeta from "./meta/TwitterCardMeta";
 import TagButton from "./TagButton";
+import TableOfContents, { Heading } from "./TableOfContents";
+import ReadingProgress from "./ReadingProgress";
+import ShareButtons from "./ShareButtons";
+import PostNav from "./PostNav";
+import RelatedPosts from "./RelatedPosts";
+import PostCover from "./PostCover";
 import { getAuthor } from "../lib/authors";
 import { getTag } from "../lib/tags";
+import { PostContent } from "../lib/posts";
+import config from "../lib/config";
 
 type Props = {
   title: string;
@@ -19,6 +25,12 @@ type Props = {
   tags: string[];
   author: string;
   description?: string;
+  coverImage?: string;
+  readTimeMinutes: number;
+  headings: Heading[];
+  previous?: PostContent;
+  next?: PostContent;
+  related: PostContent[];
   children: React.ReactNode;
 };
 export default function PostLayout({
@@ -28,218 +40,218 @@ export default function PostLayout({
   author,
   tags,
   description = "",
+  coverImage,
+  readTimeMinutes,
+  headings,
+  previous,
+  next,
+  related,
   children,
 }: Props) {
-  const keywords = tags.map(it => getTag(it).name);
-  const authorName = getAuthor(author).name;
+  const articleRef = useRef<HTMLElement>(null);
+  const keywords = tags.map((it) => getTag(it).name);
+  const authorContent = getAuthor(author);
+  const primaryTag = tags.length > 0 ? getTag(tags[0]) : undefined;
+  const url = `/posts/${slug}`;
+
   return (
     <Layout>
-      <BasicMeta
-        url={`/posts/${slug}`}
-        title={title}
-        keywords={keywords}
-        description={description}
-      />
-      <TwitterCardMeta
-        url={`/posts/${slug}`}
-        title={title}
-        description={description}
-      />
-      <OpenGraphMeta
-        url={`/posts/${slug}`}
-        title={title}
-        description={description}
-      />
+      <BasicMeta url={url} title={title} keywords={keywords} description={description} />
+      <TwitterCardMeta url={url} title={title} description={description} />
+      <OpenGraphMeta url={url} title={title} description={description} image={coverImage} />
       <JsonLdMeta
-        url={`/posts/${slug}`}
+        url={url}
         title={title}
         keywords={keywords}
         date={date}
-        author={authorName}
+        author={authorContent.name}
         description={description}
+        image={coverImage}
       />
-      <div className={"container"}>
-        <article>
-          <Link href="/posts" className="back-link">
-            ← Back to blog
-          </Link>
-          <header>
-            <h1>{title}</h1>
-            <div className={"metadata"}>
-              <div>
-                <Date date={date} />
-              </div>
-              <div>
-                <Author author={getAuthor(author)} />
-              </div>
-            </div>
-          </header>
-          <div className={styles.content}>{children}</div>
-          <ul className={"tag-list"}>
-            {tags.map((it, i) => (
-              <li key={i}>
-                <TagButton tag={getTag(it)} />
-              </li>
-            ))}
-          </ul>
-        </article>
+      <ReadingProgress targetRef={articleRef} />
+      <ArticleHeader
+        title={title}
+        description={description}
+        category={primaryTag}
+        author={authorContent}
+        date={date}
+        readTimeMinutes={readTimeMinutes}
+      />
+      <div className="cover-wrap">
+        <PostCover post={{ slug, title, coverImage } as PostContent} variant="large" />
       </div>
+      <article ref={articleRef} className="article-body">
+        <div className="layout">
+          {headings.length > 0 && (
+            <aside className="toc-rail">
+              <TableOfContents headings={headings} />
+            </aside>
+          )}
+          <div className="content-col">
+            <div className={styles.content}>{children}</div>
+            <div className="tags-share">
+              <ul className="tag-list">
+                {tags.map((it, i) => (
+                  <li key={i}>
+                    <TagButton tag={getTag(it)} />
+                  </li>
+                ))}
+              </ul>
+              <ShareButtons url={config.base_url.replace(/\/$/, "") + url} title={title} />
+            </div>
+          </div>
+        </div>
+      </article>
+      <PostNav previous={previous} next={next} />
+      <RelatedPosts posts={related} />
       <style jsx>
         {`
-            .container {
+          .cover-wrap {
+            max-width: 60rem;
+            margin: 2.5rem auto 0;
+            padding: 0 1.5rem;
+          }
+          .article-body {
+            padding: 3rem 1.5rem 0;
+          }
+          .layout {
+            max-width: 46rem;
+            margin: 0 auto;
+            display: flex;
+            gap: 3rem;
+          }
+          .content-col {
+            min-width: 0;
+            flex: 1 1 auto;
+          }
+          .toc-rail {
+            display: none;
+          }
+          .tags-share {
+            margin-top: 3rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+          }
+          .tag-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+          }
+          .tag-list li {
+            display: inline-block;
+          }
+
+          @media (min-width: 1024px) {
+            .layout {
+              max-width: 62rem;
+              align-items: flex-start;
+            }
+            .toc-rail {
               display: block;
-              max-width: 36rem;
-              width: 100%;
-              margin: 0 auto;
-              padding: 0 1.5rem;
-              box-sizing: border-box;
-              z-index: 0;
+              flex: 0 0 14rem;
+              order: 2;
             }
-            .metadata div {
-              display: inline-block;
-              margin-right: 0.5rem;
+            .content-col {
+              order: 1;
+              max-width: 46rem;
             }
-            .back-link {
-              display: inline-block;
-              margin-bottom: 1.5rem;
-              font-family: var(--font-mono);
-              font-size: 0.875rem;
-              color: var(--color-accent);
-              font-weight: 500;
-              text-decoration: none;
-            }
-            .back-link:hover {
-              text-decoration: underline;
-            }
-            article {
-              flex: 1 0 auto;
-            }
-            h1 {
-              margin: 0 0 0.5rem;
-              font-family: var(--font-display);
-              font-weight: 600;
-              font-size: 2.25rem;
-              line-height: 1.2;
-            }
-            .tag-list {
-              list-style: none;
-              text-align: right;
-              margin: 1.75rem 0 0 0;
-              padding: 0;
-            }
-            .tag-list li {
-              display: inline-block;
-              margin-left: 0.5rem;
-            }
-
-            @media (min-width: 769px) {
-              .container {
-                display: flex;
-                flex-direction: column;
-              }
-            }
-          `}
+          }
+        `}
       </style>
-      <style global jsx>
-        {`
-            /* Syntax highlighting */
-            .token.comment,
-            .token.prolog,
-            .token.doctype,
-            .token.cdata,
-            .token.plain-text {
-              color: #6a737d;
-            }
+      <style global jsx>{`
+        /* Syntax highlighting */
+        .token.comment,
+        .token.prolog,
+        .token.doctype,
+        .token.cdata,
+        .token.plain-text {
+          color: #8a8578;
+        }
 
-            .token.atrule,
-            .token.attr-value,
-            .token.keyword,
-            .token.operator {
-              color: #d73a49;
-            }
+        .token.atrule,
+        .token.attr-value,
+        .token.keyword,
+        .token.operator {
+          color: #f0a58f;
+        }
 
-            .token.property,
-            .token.tag,
-            .token.boolean,
-            .token.number,
-            .token.constant,
-            .token.symbol,
-            .token.deleted {
-              color: #22863a;
-            }
+        .token.property,
+        .token.tag,
+        .token.boolean,
+        .token.number,
+        .token.constant,
+        .token.symbol,
+        .token.deleted {
+          color: #9fd8b3;
+        }
 
-            .token.selector,
-            .token.attr-name,
-            .token.string,
-            .token.char,
-            .token.builtin,
-            .token.inserted {
-              color: #032f62;
-            }
+        .token.selector,
+        .token.attr-name,
+        .token.string,
+        .token.char,
+        .token.builtin,
+        .token.inserted {
+          color: #a8c6ff;
+        }
 
-            .token.function,
-            .token.class-name {
-              color: #6f42c1;
-            }
+        .token.function,
+        .token.class-name {
+          color: #d9b8f5;
+        }
 
-            /* language-specific */
+        .language-jsx .token.punctuation,
+        .language-jsx .token.tag .token.punctuation,
+        .language-jsx .token.tag .token.script,
+        .language-jsx .token.plain-text {
+          color: var(--color-paper);
+        }
 
-            /* JSX */
-            .language-jsx .token.punctuation,
-            .language-jsx .token.tag .token.punctuation,
-            .language-jsx .token.tag .token.script,
-            .language-jsx .token.plain-text {
-              color: #24292e;
-            }
+        .language-jsx .token.tag .token.attr-name {
+          color: #d9b8f5;
+        }
 
-            .language-jsx .token.tag .token.attr-name {
-              color: #6f42c1;
-            }
+        .language-jsx .token.tag .token.class-name {
+          color: #a8c6ff;
+        }
 
-            .language-jsx .token.tag .token.class-name {
-              color: #005cc5;
-            }
+        .language-jsx .token.tag .token.script-punctuation,
+        .language-jsx .token.attr-value .token.punctuation:first-child {
+          color: #f0a58f;
+        }
 
-            .language-jsx .token.tag .token.script-punctuation,
-            .language-jsx .token.attr-value .token.punctuation:first-child {
-              color: #d73a49;
-            }
+        .language-jsx .token.attr-value {
+          color: #a8c6ff;
+        }
 
-            .language-jsx .token.attr-value {
-              color: #032f62;
-            }
+        .language-html .token.tag .token.punctuation {
+          color: var(--color-paper);
+        }
 
-            .language-jsx span[class="comment"] {
-              color: pink;
-            }
+        .language-html .token.tag .token.attr-name {
+          color: #d9b8f5;
+        }
 
-            /* HTML */
-            .language-html .token.tag .token.punctuation {
-              color: #24292e;
-            }
+        .language-html .token.tag .token.attr-value,
+        .language-html .token.tag .token.attr-value .token.punctuation:not(:first-child) {
+          color: #a8c6ff;
+        }
 
-            .language-html .token.tag .token.attr-name {
-              color: #6f42c1;
-            }
+        .language-css .token.selector {
+          color: #d9b8f5;
+        }
 
-            .language-html .token.tag .token.attr-value,
-            .language-html
-              .token.tag
-              .token.attr-value
-              .token.punctuation:not(:first-child) {
-              color: #032f62;
-            }
-
-            /* CSS */
-            .language-css .token.selector {
-              color: #6f42c1;
-            }
-
-            .language-css .token.property {
-              color: #005cc5;
-            }
-          `}
-      </style>
+        .language-css .token.property {
+          color: #a8c6ff;
+        }
+      `}</style>
     </Layout>
   );
 }
