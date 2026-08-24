@@ -23,7 +23,6 @@ export type Props = {
   author: string;
   description?: string;
   coverImage: string | null;
-  bannerImage: string | null;
   readTimeMinutes: number;
   headings: Heading[];
   previous: PostContent | null;
@@ -76,7 +75,6 @@ export default function Post({
   author,
   description = "",
   coverImage,
-  bannerImage,
   readTimeMinutes,
   headings,
   previous,
@@ -93,7 +91,6 @@ export default function Post({
       author={author}
       description={description}
       coverImage={coverImage ?? undefined}
-      bannerImage={bannerImage ?? undefined}
       readTimeMinutes={readTimeMinutes}
       headings={headings}
       previous={previous ?? undefined}
@@ -147,7 +144,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       slug: data.slug,
       description: data.description ?? slugToPostContent[slug].excerpt ?? "",
       coverImage: slugToPostContent[slug].coverImage ?? null,
-      bannerImage: slugToPostContent[slug].bannerImage ?? null,
       readTimeMinutes: slugToPostContent[slug].readTimeMinutes,
       tags: currentTags,
       author: data.author,

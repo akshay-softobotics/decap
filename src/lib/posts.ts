@@ -14,7 +14,6 @@ export type PostContent = {
   readonly excerpt: string;
   readonly readTimeMinutes: number;
   readonly coverImage?: string;
-  readonly bannerImage?: string;
   readonly author?: string;
 };
 
@@ -72,7 +71,6 @@ export function fetchPostContent(): PostContent[] {
         excerpt: string;
         readTimeMinutes: number;
         coverImage?: string;
-        bannerImage?: string;
         author?: string;
       };
       matterData.fullPath = fullPath;

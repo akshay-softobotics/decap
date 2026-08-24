@@ -133,11 +133,6 @@ collections:
         widget: "image"
         required: false
         hint: "Used as the thumbnail on the blog listing page"
-      - label: "Banner Image"
-        name: "bannerImage"
-        widget: "image"
-        required: false
-        hint: "Used as the large header image inside the post. Falls back to the Cover Image if left empty."
       - label: "Publish Date"
         name: "date"
         widget: "datetime"

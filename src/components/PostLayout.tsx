@@ -12,7 +12,6 @@ import ReadingProgress from "./ReadingProgress";
 import ShareButtons from "./ShareButtons";
 import PostNav from "./PostNav";
 import RelatedPosts from "./RelatedPosts";
-import PostCover from "./PostCover";
 import { getAuthor } from "../lib/authors";
 import { getTag, TagContent } from "../lib/tags";
 import { PostContent } from "../lib/posts";
@@ -26,7 +25,6 @@ type Props = {
   author: string;
   description?: string;
   coverImage?: string;
-  bannerImage?: string;
   readTimeMinutes: number;
   headings: Heading[];
   previous?: PostContent;
@@ -42,7 +40,6 @@ export default function PostLayout({
   tags,
   description = "",
   coverImage,
-  bannerImage,
   readTimeMinutes,
   headings,
   previous,
@@ -58,13 +55,12 @@ export default function PostLayout({
   const authorContent = getAuthor(author);
   const primaryTag = resolvedTags.length > 0 ? resolvedTags[0] : undefined;
   const url = `/posts/${slug}`;
-  const heroImage = bannerImage ?? coverImage;
 
   return (
     <Layout>
       <BasicMeta url={url} title={title} keywords={keywords} description={description} />
       <TwitterCardMeta url={url} title={title} description={description} />
-      <OpenGraphMeta url={url} title={title} description={description} image={heroImage} />
+      <OpenGraphMeta url={url} title={title} description={description} image={coverImage} />
       <JsonLdMeta
         url={url}
         title={title}
@@ -72,7 +68,7 @@ export default function PostLayout({
         date={date}
         author={authorContent.name}
         description={description}
-        image={heroImage}
+        image={coverImage}
       />
       <ReadingProgress targetRef={articleRef} />
       <ArticleHeader
@@ -83,11 +79,6 @@ export default function PostLayout({
         date={date}
         readTimeMinutes={readTimeMinutes}
       />
-      {heroImage && (
-        <div className="cover-wrap">
-          <PostCover post={{ slug, title, coverImage: heroImage } as PostContent} variant="large" />
-        </div>
-      )}
       <article ref={articleRef} className="article-body">
         <div className="layout">
           {headings.length > 0 && (
@@ -122,11 +113,6 @@ export default function PostLayout({
       <RelatedPosts posts={related} />
       <style jsx>
         {`
-          .cover-wrap {
-            max-width: var(--content-width);
-            margin: 2rem auto 0;
-            padding: 0 1.5rem;
-          }
           .article-body {
             padding: 2rem 1.5rem 0;
           }
