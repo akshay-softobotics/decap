@@ -1,0 +1,25 @@
+projects:
+  - slug: aurora-commerce
+    category: E-commerce
+    title: Aurora Commerce Platform
+    description:
+      A headless storefront rebuild that unified inventory across three
+      sales channels and cut checkout time by 38%.
+  - slug: meridian-banking
+    category: Fintech
+    title: Meridian Banking App
+    description:
+      A mobile banking redesign focused on clarity, which cut support
+      tickets by a third in its first quarter live.
+  - slug: foundry-ops
+    category: SaaS
+    title: Foundry Ops Dashboard
+    description:
+      An internal operations dashboard that replaced six spreadsheets
+      with a single real-time view for the whole team.
+  - slug: larkspur-health
+    category: Healthcare
+    title: Larkspur Health Portal
+    description:
+      A patient portal redesign that raised self-service appointment
+      bookings to 70% of all bookings within two months.

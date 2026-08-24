@@ -4,14 +4,7 @@ import { useEffect, useState } from "react";
 import Burger from "./Burger";
 import MobileMenu from "./MobileMenu";
 import config from "../lib/config";
-
-const NAV_ITEMS = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About Us" },
-  { href: "/posts", label: "Blog" },
-  { href: "/contact", label: "Contact" },
-];
+import { PRIMARY_NAV } from "../lib/nav";
 
 export default function Navbar() {
   const router = useRouter();
@@ -47,7 +40,7 @@ export default function Navbar() {
 
           <nav aria-label="Primary">
             <ul>
-              {NAV_ITEMS.map((item) => (
+              {PRIMARY_NAV.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
@@ -68,7 +61,7 @@ export default function Navbar() {
           <Burger active={open} onClick={() => setOpen((v) => !v)} />
         </div>
       </header>
-      <MobileMenu open={open} onClose={() => setOpen(false)} items={NAV_ITEMS} isActive={isActive} />
+      <MobileMenu open={open} onClose={() => setOpen(false)} items={PRIMARY_NAV} isActive={isActive} />
       <style jsx>{`
         .site-header {
           position: sticky;

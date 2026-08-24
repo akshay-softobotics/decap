@@ -2,26 +2,13 @@ import Link from "next/link";
 import Copyright from "./Copyright";
 import Newsletter from "./Newsletter";
 import config from "../lib/config";
+import { FOOTER_COMPANY_LINKS, FOOTER_RESOURCE_LINKS } from "../lib/nav";
 
 const SOCIALS = [
   { label: "X / Twitter", monogram: "X", href: `https://twitter.com/${config.twitter_account}` },
   { label: "LinkedIn", monogram: "in", href: "#" },
   { label: "GitHub", monogram: "GH", href: `https://github.com/${config.github_account}` },
   { label: "Instagram", monogram: "IG", href: "#" },
-];
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
-  { label: "Blog", href: "/posts" },
-  { label: "Contact", href: "/contact" },
-];
-
-const RESOURCE_LINKS = [
-  { label: "Guides", href: "/posts" },
-  { label: "Articles", href: "/posts" },
-  { label: "FAQs", href: "/contact#faq" },
 ];
 
 export default function Footer() {
@@ -47,10 +34,10 @@ export default function Footer() {
           </ul>
         </div>
 
-        <nav className="col" aria-label="Footer navigation">
-          <h3>Navigation</h3>
+        <nav className="col" aria-label="Company">
+          <h3>Company</h3>
           <ul>
-            {NAV_LINKS.map((l) => (
+            {FOOTER_COMPANY_LINKS.map((l) => (
               <li key={l.href}>
                 <Link href={l.href}>{l.label}</Link>
               </li>
@@ -61,7 +48,7 @@ export default function Footer() {
         <nav className="col" aria-label="Resources">
           <h3>Resources</h3>
           <ul>
-            {RESOURCE_LINKS.map((l) => (
+            {FOOTER_RESOURCE_LINKS.map((l) => (
               <li key={l.label}>
                 <Link href={l.href}>{l.label}</Link>
               </li>

@@ -9,25 +9,31 @@ import Reveal from "../components/Reveal";
 import SectionHeader from "../components/SectionHeader";
 import StatCard from "../components/StatCard";
 import ServiceCard from "../components/ServiceCard";
-import FeaturedPost from "../components/FeaturedPost";
+import ProjectCard from "../components/ProjectCard";
+import FeatureCard from "../components/FeatureCard";
 import BlogCard from "../components/BlogCard";
 import CTASection from "../components/CTASection";
 import { listServices, ServiceContent } from "../lib/services";
+import { listProjects, ProjectContent } from "../lib/projects";
+import { listFeatures, FeatureContent } from "../lib/features";
 import { fetchPostContent, PostContent } from "../lib/posts";
 import config from "../lib/config";
 
 type Props = {
   services: ServiceContent[];
-  featuredPost: PostContent;
-  secondaryPosts: PostContent[];
+  projects: ProjectContent[];
+  features: FeatureContent[];
+  latestPosts: PostContent[];
 };
 
 const STATS = [
-  { value: "100+", label: "Articles" },
-  { value: "20+", label: "Topics" },
-  { value: "10K+", label: "Readers" },
+  { value: "100+", label: "Projects" },
+  { value: "50+", label: "Clients" },
+  { value: "10+", label: "Years experience" },
   { value: "6", label: "Core services" },
 ];
+
+const TRUSTED_BY = ["Northwind", "Aurora Labs", "Meridian", "Foundry", "Larkspur"];
 
 const BENEFITS = [
   "A single team from strategy through delivery",
@@ -70,7 +76,7 @@ function HeroIllustration() {
   );
 }
 
-export default function Index({ services, featuredPost, secondaryPosts }: Props) {
+export default function Index({ services, projects, features, latestPosts }: Props) {
   return (
     <Layout>
       <BasicMeta url={"/"} />
@@ -79,20 +85,30 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
 
       <Hero
         eyebrow={config.site_title}
-        title="Ideas, Insights & Stories That Move You Forward"
-        description={`${config.site_description} — practical consulting and a growing library of guides, playbooks and stories from the field.`}
+        title="Build Better. Move Faster. Grow Smarter."
+        description={`${config.site_description} — a hands-on studio that pairs strategy, design and engineering to help teams ship products worth using.`}
         primaryCta={{ label: "Explore Our Services", href: "/services" }}
-        secondaryCta={{ label: "Read Our Blog", href: "/posts" }}
+        secondaryCta={{ label: "Get Started", href: "/contact" }}
         visual={<HeroIllustration />}
       />
 
       <section className="stats">
         <div className="stats-inner">
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 60}>
-              <StatCard value={s.value} label={s.label} />
-            </Reveal>
-          ))}
+          <p className="trusted-by">
+            <span>Trusted by teams at</span>
+            <span className="marks">
+              {TRUSTED_BY.map((name) => (
+                <span key={name}>{name}</span>
+              ))}
+            </span>
+          </p>
+          <div className="stats-grid">
+            {STATS.map((s, i) => (
+              <Reveal key={s.label} delay={i * 60}>
+                <StatCard value={s.value} label={s.label} />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -109,28 +125,6 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
                 <ServiceCard service={service} />
               </Reveal>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="inner">
-          <SectionHeader
-            eyebrow="From the blog"
-            title="Featured content"
-            description="Fresh thinking from our team — start with the latest, or browse the full library."
-          />
-          <div className="featured-grid">
-            <Reveal className="featured-main">
-              <FeaturedPost post={featuredPost} />
-            </Reveal>
-            <div className="featured-side">
-              {secondaryPosts.map((post, i) => (
-                <Reveal key={post.slug} delay={(i + 1) * 80}>
-                  <BlogCard post={post} />
-                </Reveal>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -154,10 +148,10 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
             <span className="eyebrow">About us</span>
             <h2>A small team that ships work you can actually maintain</h2>
             <p>
-              {config.site_title} pairs hands-on consulting with a public library of
-              writing, so the way we work is never a black box. We favour clarity and
-              plain language over jargon — for the products we build and the words we
-              write about them.
+              {config.site_title} pairs hands-on consulting with a track record of
+              shipped products, so the way we work is never a black box. We favour
+              clarity and plain language over jargon — for the products we build and
+              the way we talk about them.
             </p>
             <ul>
               {BENEFITS.map((b) => (
@@ -176,6 +170,57 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
         </div>
       </section>
 
+      <section className="section">
+        <div className="inner">
+          <SectionHeader
+            eyebrow="Our work"
+            title="Recent projects"
+            description="A sample of the products and platforms we've helped teams design, build and ship."
+          />
+          <div className="project-grid">
+            {projects.map((project, i) => (
+              <Reveal key={project.slug} delay={(i % 4) * 60}>
+                <ProjectCard project={project} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section why-section">
+        <div className="inner">
+          <SectionHeader eyebrow="Why choose us" title="Built to be a safe bet" align="center" />
+          <div className="feature-grid">
+            {features.map((feature, i) => (
+              <Reveal key={feature.title} delay={i * 60}>
+                <FeatureCard feature={feature} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="inner">
+          <div className="blog-preview-head">
+            <SectionHeader eyebrow="From the blog" title="Latest insights" />
+            <Link href="/posts" className="view-all">
+              View All Articles
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </div>
+          <div className="blog-grid">
+            {latestPosts.map((post, i) => (
+              <Reveal key={post.slug} delay={i * 60}>
+                <BlogCard post={post} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <CTASection
         eyebrow="Let's talk"
         title="Have an idea? Let's build something meaningful."
@@ -185,11 +230,38 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
 
       <style jsx>{`
         .stats {
-          padding: 0 1.5rem 5rem;
+          padding: 3rem 1.5rem 5rem;
         }
         .stats-inner {
           max-width: var(--content-width);
           margin: 0 auto;
+        }
+        .trusted-by {
+          margin: 0 0 2.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+        .trusted-by > span:first-child {
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--color-muted);
+        }
+        .marks {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.5rem 2rem;
+        }
+        .marks span {
+          font-family: var(--font-display);
+          font-weight: 600;
+          font-size: 1.0625rem;
+          color: var(--color-ink);
+          opacity: 0.55;
+        }
+        .stats-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 1rem;
@@ -206,12 +278,43 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
           grid-template-columns: 1fr;
           gap: 1.5rem;
         }
-        .featured-grid {
+        .project-grid {
           display: grid;
           grid-template-columns: 1fr;
           gap: 1.5rem;
         }
-        .featured-side {
+        .why-section {
+          background: var(--color-surface);
+          border-top: 1px solid var(--color-border);
+          border-bottom: 1px solid var(--color-border);
+        }
+        .feature-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.25rem;
+        }
+        .blog-preview-head {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1rem 1.5rem;
+        }
+        :global(.view-all) {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4em;
+          flex-shrink: 0;
+          margin-top: 0.4rem;
+          font-weight: 500;
+          font-size: 0.9375rem;
+          color: var(--color-accent);
+        }
+        :global(.view-all) svg {
+          width: 1em;
+          height: 1em;
+        }
+        .blog-grid {
           display: grid;
           grid-template-columns: 1fr;
           gap: 1.5rem;
@@ -276,8 +379,11 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
         }
 
         @media (min-width: 640px) {
-          .stats-inner {
+          .stats-grid {
             grid-template-columns: repeat(4, 1fr);
+          }
+          .feature-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
         }
 
@@ -285,12 +391,15 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
           .service-grid {
             grid-template-columns: repeat(2, 1fr);
           }
+          .project-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .blog-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
         }
 
         @media (min-width: 900px) {
-          .featured-grid {
-            grid-template-columns: 1.5fr 1fr;
-          }
           .about-grid {
             grid-template-columns: 1fr 1.2fr;
           }
@@ -298,6 +407,15 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
 
         @media (min-width: 1100px) {
           .service-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+          .project-grid {
+            grid-template-columns: repeat(4, 1fr);
+          }
+          .feature-grid {
+            grid-template-columns: repeat(4, 1fr);
+          }
+          .blog-grid {
             grid-template-columns: repeat(3, 1fr);
           }
         }
@@ -308,12 +426,15 @@ export default function Index({ services, featuredPost, secondaryPosts }: Props)
 
 export const getStaticProps: GetStaticProps = async () => {
   const services = listServices();
+  const projects = listProjects();
+  const features = listFeatures();
   const allPosts = fetchPostContent();
   return {
     props: {
       services,
-      featuredPost: allPosts[0],
-      secondaryPosts: allPosts.slice(1, 3),
+      projects,
+      features,
+      latestPosts: allPosts.slice(0, 3),
     },
   };
 };

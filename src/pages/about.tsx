@@ -6,6 +6,7 @@ import Hero from "../components/Hero";
 import Reveal from "../components/Reveal";
 import SectionHeader from "../components/SectionHeader";
 import StatCard from "../components/StatCard";
+import TeamCard from "../components/TeamCard";
 import CTASection from "../components/CTASection";
 import { listAuthors } from "../lib/authors";
 import config from "../lib/config";
@@ -95,12 +96,8 @@ export default function About() {
           <SectionHeader eyebrow="Who we are" title="Meet the team" align="center" />
           <div className="team-grid">
             {team.map((member) => (
-              <Reveal key={member.slug} className="team-card">
-                <span className="avatar" aria-hidden="true">
-                  {member.name.charAt(0)}
-                </span>
-                <h3>{member.name}</h3>
-                <p>{member.introduction}</p>
+              <Reveal key={member.slug} as="div">
+                <TeamCard member={member} />
               </Reveal>
             ))}
           </div>
@@ -203,39 +200,6 @@ export default function About() {
           display: grid;
           grid-template-columns: 1fr;
           gap: 1.5rem;
-        }
-        :global(.team-card) {
-          text-align: center;
-          padding: 2rem 1.5rem;
-          background: var(--color-surface);
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-md);
-        }
-        :global(.team-card) .avatar {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 3.5rem;
-          height: 3.5rem;
-          border-radius: 50%;
-          background: var(--color-accent-dim);
-          color: var(--color-accent);
-          font-family: var(--font-display);
-          font-weight: 600;
-          font-size: 1.375rem;
-          margin-bottom: 1rem;
-        }
-        :global(.team-card) h3 {
-          margin: 0 0 0.5rem;
-          font-family: var(--font-display);
-          font-weight: 600;
-          font-size: 1.125rem;
-        }
-        :global(.team-card) p {
-          margin: 0;
-          color: var(--color-muted);
-          font-size: 0.875rem;
-          line-height: 1.55;
         }
         .stats-section {
           padding: 0 1.5rem 5rem;
