@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
-import Link from "next/link";
 import { PostContent } from "../lib/posts";
 import PostItem from "./PostItem";
+import FeaturedBlog from "./FeaturedBlog";
 import Pagination from "./Pagination";
 import BlogHero from "./BlogHero";
 import BlogSidebar from "./BlogSidebar";
@@ -39,42 +39,82 @@ export default function PostList({
     );
   }, [isSearching, trimmed, posts, allPosts]);
 
-  const nextHref =
-    pagination.current === 1 ? "/posts/page/2" : `/posts/page/${pagination.current + 1}`;
+  const showFeatured = !isSearching && pagination.current === 1;
+  const featured = showFeatured ? results[0] : undefined;
+  const gridPosts = showFeatured ? results.slice(1) : results;
 
   return (
     <div className="page">
       <BlogHero query={query} onQueryChange={setQuery} />
-      <div className={"container"}>
-        <div className={"posts"}>
-          {isSearching && (
-            <p className="search-status">
-              {results.length === 0
-                ? `No posts match "${query}"`
-                : `${results.length} post${results.length === 1 ? "" : "s"} matching "${query}"`}
-            </p>
+
+      {featured && (
+        <div className="container featured-row">
+          <FeaturedBlog post={featured} />
+        </div>
+      )}
+
+      <div className="container layout">
+        <div className="posts">
+          <div className="list-head">
+            {isSearching ? (
+              <p className="search-status" role="status">
+                {results.length === 0
+                  ? `No stories match "${query}"`
+                  : `${results.length} article${
+                      results.length === 1 ? "" : "s"
+                    } matching "${query}"`}
+              </p>
+            ) : (
+              <>
+                <h2 className="list-title">Latest family travel tips</h2>
+                <span className="count">
+                  {gridPosts.length} article
+                  {gridPosts.length === 1 ? "" : "s"}
+                </span>
+              </>
+            )}
+          </div>
+
+          {gridPosts.length === 0 ? (
+            <div className="empty">
+              <span className="empty-icon" aria-hidden="true">
+                🧭
+              </span>
+              <h3>Nothing here yet</h3>
+              <p>
+                {isSearching
+                  ? "Try a different destination, tag or keyword."
+                  : "New stories are on the way — check back soon."}
+              </p>
+              {isSearching && (
+                <button type="button" onClick={() => setQuery("")}>
+                  Clear search
+                </button>
+              )}
+            </div>
+          ) : (
+            <ul className="post-list">
+              {gridPosts.map((it) => (
+                <li key={it.slug}>
+                  <PostItem post={it} />
+                </li>
+              ))}
+            </ul>
           )}
-          <ul className={"post-list"}>
-            {results.map((it, i) => (
-              <li key={i}>
-                <PostItem post={it} />
-              </li>
-            ))}
-          </ul>
-          {!isSearching && (
+
+          {!isSearching && pagination.pages > 1 && (
             <div className="pagination-row">
               <Pagination
                 current={pagination.current}
                 pages={pagination.pages}
                 link={{
-                  href: (page) => (page === 1 ? "/posts" : "/posts/page/" + page),
+                  href: (page) =>
+                    page === 1 ? "/posts" : "/posts/page/" + page,
                 }}
               />
-              {pagination.current < pagination.pages && (
-                <Link href={nextHref} className="next-link">
-                  Next →
-                </Link>
-              )}
+              <span className="page-of">
+                Page {pagination.current} of {pagination.pages}
+              </span>
             </div>
           )}
         </div>
@@ -84,15 +124,14 @@ export default function PostList({
         .page {
           width: 100%;
         }
-        .container {
+        .featured-row {
+          padding-bottom: 3rem;
+        }
+        .layout {
           display: flex;
           align-items: flex-start;
           gap: 3rem;
-          margin: 0 auto;
-          max-width: 1200px;
-          width: 100%;
-          padding: 0 1.5rem 4rem;
-          box-sizing: border-box;
+          padding-bottom: 4rem;
           flex-direction: column;
         }
         ul {
@@ -107,45 +146,104 @@ export default function PostList({
           flex-direction: column;
           flex: 1 1 auto;
           min-width: 0;
+          width: 100%;
+        }
+        .list-head {
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          padding-bottom: 0.9rem;
+          border-bottom: 1px solid var(--color-border);
+        }
+        .list-title {
+          font-family: var(--font-display);
+          font-weight: 800;
+          font-size: 1.5rem;
+          margin: 0;
+        }
+        .count {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: var(--color-muted);
+          white-space: nowrap;
         }
         .search-status {
-          margin: 0 0 1.25rem;
+          margin: 0;
           color: var(--color-muted);
-          font-family: var(--font-mono);
-          font-size: 0.8125rem;
+          font-weight: 600;
         }
         .post-list {
           flex: 1 0 auto;
           display: grid;
           grid-template-columns: 1fr;
-          gap: 1.25rem;
-          margin-bottom: 2rem;
+          gap: 1.5rem;
+          margin-bottom: 2.5rem;
         }
-
         @media (min-width: 640px) {
           .post-list {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
-
+        .empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 0.4rem;
+          padding: 3.5rem 1.5rem;
+          margin-bottom: 2rem;
+          background: var(--color-surface);
+          border: 1px dashed var(--color-border);
+          border-radius: var(--radius-lg);
+        }
+        .empty-icon {
+          font-size: 2rem;
+        }
+        .empty h3 {
+          font-family: var(--font-display);
+          font-size: 1.2rem;
+          font-weight: 800;
+          margin: 0.25rem 0 0;
+        }
+        .empty p {
+          margin: 0;
+          color: var(--color-muted);
+          font-size: 0.95rem;
+        }
+        .empty button {
+          margin-top: 1rem;
+          border: none;
+          border-radius: var(--radius-pill);
+          padding: 0.7em 1.4em;
+          background: var(--color-coral);
+          color: #fff;
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+        }
+        .empty button:hover {
+          background: var(--color-cta-hover);
+        }
         .pagination-row {
           display: flex;
           align-items: center;
-          gap: 1.5rem;
+          flex-wrap: wrap;
+          gap: 1rem 1.5rem;
+          padding-top: 1.75rem;
+          border-top: 1px solid var(--color-border);
         }
-        :global(.next-link) {
-          font-family: var(--font-mono);
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: var(--color-accent);
+        .page-of {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: var(--color-muted);
         }
-
         @media (min-width: 1024px) {
-          .container {
+          .layout {
             flex-direction: row;
-          }
-          .post-list {
-            grid-template-columns: repeat(3, 1fr);
           }
         }
       `}</style>

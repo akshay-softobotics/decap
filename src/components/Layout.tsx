@@ -27,8 +27,9 @@ export default function Layout({ children }: Props) {
             min-height: 100%;
           }
           main {
-            display: flex;
+            display: block;
             flex: 1 0 auto;
+            width: 100%;
           }
         `}
       </style>

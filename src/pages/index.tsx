@@ -1,189 +1,225 @@
-import Link from "next/link";
 import Layout from "../components/Layout";
 import BasicMeta from "../components/meta/BasicMeta";
 import OpenGraphMeta from "../components/meta/OpenGraphMeta";
 import TwitterCardMeta from "../components/meta/TwitterCardMeta";
-import { SocialList } from "../components/SocialList";
+import Hero from "../components/Hero";
+import SectionHeader from "../components/SectionHeader";
+import CategoryCard from "../components/CategoryCard";
+import DestinationCard from "../components/DestinationCard";
+import ActivityCard from "../components/ActivityCard";
+import Planner from "../components/Planner";
+import AgeIdeas from "../components/AgeIdeas";
+import ReviewCard from "../components/ReviewCard";
+import Newsletter from "../components/Newsletter";
+import RevealOnScroll from "../components/RevealOnScroll";
+import { categories, destinations, activities, testimonials } from "../lib/site";
 
 export default function Index() {
+  const featured = destinations.slice(0, 6);
   return (
     <Layout>
       <BasicMeta url={"/"} />
       <OpenGraphMeta url={"/"} />
       <TwitterCardMeta url={"/"} />
-      <div className="page">
-        <div className="hero">
-          <div className="content">
-            <span className="handle">@nextjs-netlify-blog</span>
-            <h1>
-              Write it in Markdown.<br />
-              Ship it in seconds<span className="fancy">.</span>
-            </h1>
-            <h2>A blog template built on Next.js and Netlify.</h2>
-            <div className="actions">
-              <Link href="/posts" className="cta">
-                Read the blog
-              </Link>
+
+      <Hero />
+
+      {/* Vacation discovery */}
+      <section className="section" id="discover">
+        <div className="container">
+          <RevealOnScroll>
+            <SectionHeader
+              eyebrow="Start here"
+              title="Find your family's next adventure"
+              intro="Pick a vibe and we'll show you where families like yours are headed."
+              link={{ href: "/destinations", label: "See all destinations" }}
+            />
+          </RevealOnScroll>
+          <RevealOnScroll>
+            <div className="cat-grid">
+              {categories.map((c) => (
+                <CategoryCard key={c.slug} category={c} />
+              ))}
             </div>
-            <SocialList />
-          </div>
+          </RevealOnScroll>
         </div>
-        <div className="why">
-          <div className="why-inner">
-            <div className="why-item">
-              <svg className="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M14.5 5.5l4 4L8 20H4v-4L14.5 5.5z" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M13 7l4 4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span className="why-eyebrow">write</span>
-              <h4>Just write</h4>
-              <p>
-                Markdown &amp; MDX posts with zero boilerplate — spend your
-                time on words, not wiring.
-              </p>
+      </section>
+
+      {/* Featured destinations */}
+      <section className="section band-soft">
+        <div className="container">
+          <RevealOnScroll>
+            <SectionHeader
+              eyebrow="Featured destinations"
+              title="Places kids beg to go back to"
+              intro="Hand-picked spots that work as hard for the grown-ups as they do for the kids."
+              link={{ href: "/destinations", label: "Browse the guides" }}
+            />
+          </RevealOnScroll>
+          <RevealOnScroll>
+            <div className="dest-editorial">
+              {featured.map((d, i) => (
+                <div
+                  key={d.slug}
+                  className={i === 0 ? "cell feature-cell" : "cell"}
+                >
+                  <DestinationCard
+                    destination={d}
+                    variant={i === 0 ? "feature" : "default"}
+                  />
+                </div>
+              ))}
             </div>
-            <div className="why-item">
-              <svg className="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span className="why-eyebrow">ship</span>
-              <h4>Ship for free</h4>
-              <p>
-                Statically exported and deployed on Cloudflare Workers /
-                Netlify — nothing to babysit, ever.
-              </p>
-            </div>
-            <div className="why-item">
-              <svg className="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="10.5" cy="10.5" r="6.5" />
-                <path d="M20 20l-5-5" strokeLinecap="round" />
-              </svg>
-              <span className="why-eyebrow">discover</span>
-              <h4>Get found</h4>
-              <p>
-                Meta tags, Open Graph &amp; Twitter cards are already wired
-                up, so your posts are discoverable from day one.
-              </p>
-            </div>
-          </div>
+          </RevealOnScroll>
         </div>
-      </div>
+      </section>
+
+      {/* Planner */}
+      <RevealOnScroll>
+        <Planner />
+      </RevealOnScroll>
+
+      {/* Things to do */}
+      <section className="section" id="things-to-do">
+        <div className="container">
+          <RevealOnScroll>
+            <SectionHeader
+              eyebrow="Things to do"
+              title="Something for every kind of kid"
+              intro="From animal encounters to quiet museum afternoons — the moments that make trips memorable."
+            />
+          </RevealOnScroll>
+          <RevealOnScroll>
+            <div className="act-rail no-scrollbar">
+              {activities.map((a) => (
+                <div className="act-cell" key={a.slug}>
+                  <ActivityCard activity={a} />
+                </div>
+              ))}
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* Age-based ideas */}
+      <section className="section band-soft" id="age-ideas">
+        <div className="container">
+          <RevealOnScroll>
+            <SectionHeader
+              eyebrow="By age"
+              title="Vacations that match their age"
+              intro="What delights a toddler bores a teen. Here's what works, stage by stage."
+              align="center"
+            />
+          </RevealOnScroll>
+          <RevealOnScroll>
+            <AgeIdeas />
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="section">
+        <div className="container">
+          <RevealOnScroll>
+            <SectionHeader
+              eyebrow="Loved by families"
+              title="Trusted by parents like you"
+              align="center"
+            />
+          </RevealOnScroll>
+          <RevealOnScroll>
+            <div className="reviews">
+              {testimonials.map((t) => (
+                <ReviewCard key={t.name} review={t} />
+              ))}
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <RevealOnScroll>
+        <Newsletter />
+      </RevealOnScroll>
+
       <style jsx>{`
-        .page {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
+        .band-soft {
+          background: linear-gradient(
+            180deg,
+            rgba(79, 176, 217, 0.06),
+            rgba(255, 201, 77, 0.05)
+          );
         }
-        .hero {
-          position: relative;
-          display: flex;
-          align-items: center;
-          flex: 1 1 auto;
-          padding: 4rem 1.5rem;
-          border-bottom: 1px solid var(--color-border);
-        }
-        .content {
-          position: relative;
-          max-width: 38rem;
-          margin: 0 auto;
-          width: 100%;
-        }
-        .handle {
-          display: block;
-          margin-bottom: 1rem;
-          color: var(--color-muted);
-          font-family: var(--font-mono);
-          font-size: 0.8125rem;
-          letter-spacing: 0.03em;
-        }
-        h1 {
-          font-family: var(--font-display);
-          font-size: clamp(2.25rem, 6vw, 3.25rem);
-          margin: 0;
-          font-weight: 600;
-          line-height: 1.15;
-          letter-spacing: -0.01em;
-        }
-        h2 {
-          font-size: clamp(1.125rem, 3vw, 1.375rem);
-          font-weight: 300;
-          line-height: 1.4;
-          color: var(--color-muted);
-          margin: 1rem 0 0;
-        }
-        .fancy {
-          color: var(--color-cta);
-        }
-        .actions {
-          margin: 2rem 0 1.75rem;
-        }
-        :global(.cta) {
-          display: inline-block;
-          background: var(--color-cta);
-          color: #fff;
-          font-weight: 500;
-          padding: 0.75em 1.75em;
-          border-radius: 0.25rem;
-          text-decoration: none;
-          transition: background-color 0.2s ease;
-        }
-        :global(.cta:hover) {
-          background: var(--color-cta-hover);
-          color: #fff;
-        }
-
-        .why {
-          padding: 1rem 1.5rem 4.5rem;
-        }
-        .why-inner {
-          max-width: 60rem;
-          margin: 0 auto;
+        .cat-grid {
           display: grid;
-          grid-template-columns: 1fr;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.5rem;
         }
-        .why-item {
-          position: relative;
-          padding: 2rem 0;
-          border-top: 1px solid var(--color-border);
+        .dest-editorial {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: minmax(13rem, 1fr);
+          gap: 1.5rem;
         }
-        .why-icon {
-          width: 1.5rem;
-          height: 1.5rem;
-          color: var(--color-accent);
-          margin-bottom: 1rem;
+        .reviews {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
         }
-        .why-eyebrow {
-          display: block;
-          font-family: var(--font-mono);
-          font-size: 0.75rem;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--color-accent);
-          margin-bottom: 0.5rem;
-        }
-        .why-item h4 {
-          font-family: var(--font-display);
-          margin: 0 0 0.5rem;
-          font-size: 1.25rem;
-          font-weight: 600;
-        }
-        .why-item p {
-          margin: 0;
-          color: var(--color-muted);
-          line-height: 1.55;
-          max-width: 28rem;
+        .act-rail {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.5rem;
         }
 
-        @media (min-width: 769px) {
-          .why-inner {
-            grid-template-columns: repeat(3, 1fr);
-            column-gap: 2.5rem;
+        @media (max-width: 1024px) {
+          .cat-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
-          .why-item {
-            border-top: none;
-            border-left: 1px solid var(--color-border);
-            padding: 0 0 0 1.5rem;
+          .reviews {
+            grid-template-columns: 1fr;
           }
+        }
+        @media (max-width: 900px) {
+          .dest-editorial {
+            grid-template-columns: 1fr;
+            grid-auto-rows: auto;
+          }
+        }
+        /* Activities scroll horizontally on smaller screens */
+        @media (max-width: 760px) {
+          .act-rail {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1rem;
+            margin: 0 -1.5rem;
+            padding: 0 1.5rem 0.5rem;
+          }
+          .act-cell {
+            flex: 0 0 60%;
+            scroll-snap-align: start;
+          }
+        }
+        @media (max-width: 520px) {
+          .cat-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+      <style jsx global>{`
+        @media (min-width: 901px) {
+          .dest-editorial .feature-cell {
+            grid-column: span 2;
+            grid-row: span 2;
+          }
+        }
+        .dest-editorial .cell {
+          min-width: 0;
+        }
+        .dest-editorial .cell :global(.dest-card) {
+          height: 100%;
         }
       `}</style>
     </Layout>

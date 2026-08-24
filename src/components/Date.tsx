@@ -6,12 +6,12 @@ type Props = {
 export default function Date({ date }: Props) {
   return (
     <time dateTime={formatISO(date)}>
-      <span>{format(date, "LLLL d, yyyy")}</span>
+      <span>{format(date, "LLL d, yyyy")}</span>
       <style jsx>
         {`
           span {
-            font-family: var(--font-mono);
-            font-size: 0.8125rem;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
             color: var(--color-muted);
           }
         `}

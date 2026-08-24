@@ -5,92 +5,73 @@ type Props = {
 
 export default function BlogHero({ query, onQueryChange }: Props) {
   return (
-    <div className="hero">
-      <div className="copy">
-        <h1>Insights &amp; ideas</h1>
+    <div className="blog-hero">
+      <div className="container inner">
+        <span className="eyebrow">The magazine</span>
+        <h1>Family travel tips &amp; stories</h1>
         <p>
-          Thoughts on development, writing, and shipping. Guides and
-          notes from building this template.
+          Real advice from parents who&apos;ve been there — packing hacks,
+          destination guides and the little things that make big trips easier.
         </p>
         <div className="search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
             <circle cx="10.5" cy="10.5" r="6.5" />
             <path d="M20 20l-5-5" strokeLinecap="round" />
           </svg>
           <input
             type="search"
-            placeholder="Search posts…"
+            placeholder="Where does your family want to go?"
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
-            aria-label="Search posts"
+            aria-label="Search articles"
           />
         </div>
       </div>
-      <svg className="illustration" viewBox="0 0 220 180" fill="none" aria-hidden="true">
-        <circle cx="150" cy="70" r="62" fill="var(--color-accent-dim)" />
-        {[0, 1, 2, 3].map((row) =>
-          [0, 1, 2, 3].map((col) => (
-            <circle
-              key={`${row}-${col}`}
-              cx={172 + col * 10}
-              cy={18 + row * 10}
-              r="1.4"
-              fill="var(--color-border)"
-            />
-          ))
-        )}
-        <rect x="18" y="24" width="144" height="120" rx="8" fill="var(--color-surface)" stroke="var(--color-border)" />
-        <circle cx="32" cy="38" r="2.5" fill="var(--color-cta)" />
-        <circle cx="41" cy="38" r="2.5" fill="var(--color-border)" />
-        <circle cx="50" cy="38" r="2.5" fill="var(--color-border)" />
-        <rect x="30" y="52" width="26" height="26" rx="4" fill="var(--color-accent)" />
-        <text x="38" y="70" fontFamily="var(--font-display)" fontSize="16" fill="#fff">T</text>
-        <rect x="66" y="56" width="80" height="6" rx="3" fill="var(--color-border)" />
-        <rect x="66" y="68" width="60" height="6" rx="3" fill="var(--color-border)" />
-        <rect x="30" y="92" width="90" height="6" rx="3" fill="var(--color-border)" />
-        <rect x="30" y="104" width="70" height="6" rx="3" fill="var(--color-border)" />
-        <rect x="106" y="90" width="40" height="30" rx="4" fill="var(--color-accent-dim)" />
-        <circle cx="118" cy="102" r="4" fill="var(--color-cta)" />
-        <path d="M108 116l10-10 8 8 8-6 10 8" stroke="var(--color-accent)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
       <style jsx>{`
-        .hero {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 3rem;
-          padding: 3.5rem 1.5rem 3rem;
-          max-width: 1200px;
-          margin: 0 auto;
+        .blog-hero {
+          background: radial-gradient(
+            100% 130% at 85% 0%,
+            rgba(79, 176, 217, 0.16),
+            transparent 60%
+          );
+          padding: 3rem 0 2.5rem;
         }
-        .copy {
-          max-width: 32rem;
+        .inner {
+          max-width: 44rem;
         }
         h1 {
           font-family: var(--font-display);
-          font-size: clamp(2rem, 4.5vw, 2.75rem);
-          font-weight: 600;
-          margin: 0;
-          letter-spacing: -0.01em;
+          font-weight: 800;
+          font-size: clamp(2.25rem, 5vw, 3.5rem);
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          margin: 0.75rem 0 0;
         }
         p {
           color: var(--color-muted);
           margin: 1rem 0 1.75rem;
+          font-size: 1.15rem;
           line-height: 1.6;
         }
         .search {
           display: flex;
           align-items: center;
-          gap: 0.6rem;
+          gap: 0.7rem;
           background: var(--color-surface);
           border: 1px solid var(--color-border);
-          border-radius: 0.5rem;
-          padding: 0.7rem 1rem;
-          max-width: 22rem;
+          border-radius: var(--radius-pill);
+          padding: 0.85rem 1.25rem;
+          max-width: 30rem;
+          box-shadow: var(--shadow-sm);
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .search:focus-within {
+          border-color: var(--color-ocean);
+          box-shadow: var(--shadow-md);
         }
         .search svg {
-          width: 1.1rem;
-          height: 1.1rem;
+          width: 1.25rem;
+          height: 1.25rem;
           color: var(--color-muted);
           flex-shrink: 0;
         }
@@ -99,24 +80,12 @@ export default function BlogHero({ query, onQueryChange }: Props) {
           outline: none;
           background: transparent;
           font-family: var(--font-body);
-          font-size: 0.9375rem;
+          font-size: 1rem;
           color: var(--color-ink);
           width: 100%;
         }
         .search input::placeholder {
           color: var(--color-muted);
-        }
-        .illustration {
-          width: 14rem;
-          height: auto;
-          flex-shrink: 0;
-          display: none;
-        }
-
-        @media (min-width: 900px) {
-          .illustration {
-            display: block;
-          }
         }
       `}</style>
     </div>

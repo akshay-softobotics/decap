@@ -1,18 +1,35 @@
+import Image from "next/image";
 import { PostContent } from "../lib/posts";
-import { getTag } from "../lib/tags";
+import { IMAGES } from "../lib/images";
 
 type Props = {
   post: PostContent;
-  variant?: "card" | "thumb";
+  variant?: "card" | "thumb" | "feature";
 };
 
-const PALETTES = [
-  { from: "#3454D1", to: "#6C7FE0" },
-  { from: "#1C1B1A", to: "#3A3937" },
-  { from: "#E1622F", to: "#F2935F" },
-  { from: "#146356", to: "#1F8A73" },
-  { from: "#54586A", to: "#83879A" },
+const POOL = [
+  IMAGES.blog_beach,
+  IMAGES.blog_road,
+  IMAGES.blog_food,
+  IMAGES.blog_outdoors,
+  IMAGES.blog_city,
+  IMAGES.blog_default,
+  IMAGES.dest_hawaii,
+  IMAGES.dest_newyork,
 ];
+
+const TAG_THEME: Record<string, string> = {
+  beach: IMAGES.blog_beach,
+  "road-trips": IMAGES.blog_road,
+  road: IMAGES.blog_road,
+  packing: IMAGES.blog_road,
+  food: IMAGES.blog_food,
+  activities: IMAGES.blog_outdoors,
+  outdoors: IMAGES.blog_outdoors,
+  hiking: IMAGES.blog_outdoors,
+  destinations: IMAGES.blog_city,
+  city: IMAGES.blog_city,
+};
 
 function hash(input: string): number {
   let h = 0;
@@ -22,40 +39,54 @@ function hash(input: string): number {
   return h;
 }
 
+export function coverImage(post: PostContent): string {
+  const tags = post.tags ?? [];
+  for (const tag of tags) {
+    if (TAG_THEME[tag]) return TAG_THEME[tag];
+  }
+  return POOL[hash(post.slug) % POOL.length];
+}
+
 export default function PostCover({ post, variant = "card" }: Props) {
-  const primaryTag = post.tags && post.tags.length > 0 ? getTag(post.tags[0]) : undefined;
-  const label = (primaryTag?.name ?? post.title.split(" ")[0]).toUpperCase();
-  const palette = PALETTES[hash(post.slug) % PALETTES.length];
+  const src = coverImage(post);
   const isThumb = variant === "thumb";
+  const isFeature = variant === "feature";
 
   return (
-    <div className={isThumb ? "cover thumb" : "cover"}>
-      <span className="label">{isThumb ? label.slice(0, 2) : label}</span>
+    <div className={`cover ${variant}`}>
+      <Image
+        src={src}
+        alt={post.title}
+        fill
+        sizes={
+          isThumb
+            ? "48px"
+            : isFeature
+            ? "(max-width: 900px) 100vw, 55vw"
+            : "(max-width: 640px) 100vw, 33vw"
+        }
+        style={{ objectFit: "cover" }}
+      />
       <style jsx>{`
         .cover {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          position: relative;
           aspect-ratio: 16 / 10;
-          border-radius: 0.25rem 0.25rem 0 0;
-          background: linear-gradient(135deg, ${palette.from}, ${palette.to});
           overflow: hidden;
+          background: var(--color-surface-2);
+        }
+        .cover :global(img) {
+          transition: transform 0.55s ease;
         }
         .cover.thumb {
           aspect-ratio: 1 / 1;
-          border-radius: 0.375rem;
-          width: 2.75rem;
+          width: 3rem;
           flex-shrink: 0;
+          border-radius: var(--radius-sm);
         }
-        .label {
-          font-family: var(--font-display);
-          font-weight: 600;
-          font-size: 1.5rem;
-          color: rgba(255, 255, 255, 0.92);
-          letter-spacing: 0.02em;
-        }
-        .cover.thumb .label {
-          font-size: 0.8125rem;
+        .cover.feature {
+          aspect-ratio: auto;
+          height: 100%;
+          min-height: 16rem;
         }
       `}</style>
     </div>

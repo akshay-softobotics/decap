@@ -70,19 +70,28 @@ export default function BlogSidebar({ tagCounts, popularPosts }: Props) {
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
-          flex: 0 0 16rem;
+          flex: 0 0 18rem;
+          width: 100%;
+        }
+        @media (min-width: 1024px) {
+          .sidebar {
+            position: sticky;
+            top: calc(var(--header-h) + 1.5rem);
+          }
         }
         .panel {
           background: var(--color-surface);
           border: 1px solid var(--color-border);
-          border-radius: 0.5rem;
-          padding: 1.25rem;
+          border-radius: var(--radius-lg);
+          padding: 1.5rem;
+          box-shadow: var(--shadow-sm);
         }
         h3 {
-          margin: 0 0 1rem;
+          margin: 0 0 1.1rem;
           font-family: var(--font-display);
-          font-size: 1rem;
-          font-weight: 600;
+          font-size: 1.1rem;
+          font-weight: 800;
+          color: var(--color-ink);
         }
         .tag-grid {
           display: flex;
@@ -93,19 +102,20 @@ export default function BlogSidebar({ tagCounts, popularPosts }: Props) {
           display: flex;
           align-items: center;
           gap: 0.4em;
-          font-family: var(--font-mono);
-          font-size: 0.75rem;
-          color: var(--color-accent);
-          background: var(--color-accent-dim);
-          border-radius: 3px;
-          padding: 0.3em 0.6em;
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: var(--color-ocean);
+          background: var(--color-surface-2);
+          border-radius: var(--radius-pill);
+          padding: 0.4em 0.8em;
+          transition: background-color 0.2s ease, color 0.2s ease;
         }
         :global(.tag-pill:hover) {
-          background: var(--color-accent);
+          background: var(--color-ocean);
           color: #fff;
         }
         .tag-count {
-          opacity: 0.7;
+          opacity: 0.65;
         }
         .popular-list {
           list-style: none;
@@ -123,50 +133,64 @@ export default function BlogSidebar({ tagCounts, popularPosts }: Props) {
         }
         .popular-title {
           display: block;
-          font-size: 0.875rem;
-          font-weight: 500;
-          line-height: 1.35;
-          margin-bottom: 0.2em;
+          font-family: var(--font-display);
+          font-size: 0.95rem;
+          font-weight: 700;
+          line-height: 1.3;
+          margin-bottom: 0.25em;
+          color: var(--color-ink);
+        }
+        .newsletter {
+          background: linear-gradient(
+            160deg,
+            var(--color-surface-2),
+            var(--color-surface)
+          );
         }
         .newsletter p {
           margin: 0 0 0.9rem;
           color: var(--color-muted);
-          font-size: 0.875rem;
+          font-size: 0.9rem;
           line-height: 1.5;
         }
         .newsletter input {
           width: 100%;
           box-sizing: border-box;
           border: 1px solid var(--color-border);
-          border-radius: 0.375rem;
-          padding: 0.6em 0.8em;
+          border-radius: var(--radius-pill);
+          padding: 0.7em 1em;
           font-family: var(--font-body);
-          font-size: 0.875rem;
+          font-size: 0.9rem;
           margin-bottom: 0.75rem;
-          background: var(--color-paper);
+          background: var(--color-surface);
           color: var(--color-ink);
+        }
+        .newsletter input:focus {
+          outline: none;
+          border-color: var(--color-ocean);
         }
         .newsletter button {
           width: 100%;
           border: none;
-          border-radius: 0.375rem;
-          padding: 0.65em 0.8em;
-          background: var(--color-accent);
+          border-radius: var(--radius-pill);
+          padding: 0.75em 0.8em;
+          background: var(--color-coral);
           color: #fff;
-          font-family: var(--font-body);
-          font-weight: 500;
-          font-size: 0.875rem;
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: 0.95rem;
           cursor: pointer;
-          transition: background-color 0.2s ease;
+          transition: background-color 0.2s ease, transform 0.2s ease;
         }
         .newsletter button:hover {
-          background: var(--color-cta);
+          background: var(--color-cta-hover);
+          transform: translateY(-1px);
         }
         .thanks {
           margin: 0;
-          color: var(--color-accent);
-          font-size: 0.875rem;
-          font-weight: 500;
+          color: var(--color-green);
+          font-size: 0.9rem;
+          font-weight: 700;
         }
       `}</style>
     </aside>

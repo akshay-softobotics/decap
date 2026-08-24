@@ -9,6 +9,7 @@ export type PostContent = {
   readonly date: string;
   readonly title: string;
   readonly slug: string;
+  readonly author?: string;
   readonly tags?: string[];
   readonly fullPath: string;
   readonly excerpt: string;
@@ -65,6 +66,7 @@ export function fetchPostContent(): PostContent[] {
         title: string;
         tags: string[];
         slug: string;
+        author?: string;
         fullPath: string;
         excerpt: string;
         readTimeMinutes: number;

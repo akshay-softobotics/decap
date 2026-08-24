@@ -1,21 +1,59 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,700&display=swap");
 
 :root {
-  --color-paper: #f7f5f0;
-  --color-surface: #fffdf9;
-  --color-ink: #1c1b1a;
-  --color-muted: #8a8578;
-  --color-border: #e7e3da;
-  --color-accent: #3454d1;
-  --color-accent-dim: rgba(52, 84, 209, 0.1);
-  --color-cta: #e1622f;
-  --color-cta-hover: #c94f20;
-  --font-display: "Fraunces", "Georgia", serif;
-  --font-body: "Ubuntu", sans-serif;
-  --font-mono: "IBM Plex Mono", "Ubuntu Mono", monospace;
+  /* Surfaces */
+  --color-paper: #fff9f0;
+  --color-surface: #ffffff;
+  --color-surface-2: #fef4e6;
+
+  /* Ink */
+  --color-ink: #0f2a43;
+  --color-muted: #5b6b7a;
+  --color-border: #ede4d6;
+
+  /* Brand */
+  --color-ocean: #0e7ca8;
+  --color-sky: #4fb0d9;
+  --color-sun: #ffc94d;
+  --color-coral: #ff6b4a;
+  --color-green: #3bb273;
+
+  /* Semantic aliases (kept for backward-compat with existing components) */
+  --color-accent: #0e7ca8;
+  --color-accent-dim: rgba(14, 124, 168, 0.1);
+  --color-cta: #ff6b4a;
+  --color-cta-hover: #f4552f;
+
+  /* Type */
+  --font-display: "Baloo 2", "Trebuchet MS", sans-serif;
+  --font-body: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-mono: "Nunito Sans", monospace;
+
+  /* Radius */
+  --radius-sm: 0.5rem;
+  --radius: 0.875rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-pill: 999px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(15, 42, 67, 0.06),
+    0 2px 6px rgba(15, 42, 67, 0.05);
+  --shadow-md: 0 6px 16px rgba(15, 42, 67, 0.08),
+    0 2px 6px rgba(15, 42, 67, 0.05);
+  --shadow-lg: 0 18px 40px rgba(15, 42, 67, 0.14),
+    0 6px 14px rgba(15, 42, 67, 0.08);
+
+  /* Layout */
+  --maxw: 1200px;
+  --maxw-wide: 1320px;
+  --header-h: 72px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html,
@@ -23,8 +61,11 @@ body {
   font-family: var(--font-body);
   background-color: var(--color-paper);
   color: var(--color-ink);
-  font-weight: 300;
+  font-weight: 400;
   height: 100%;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 #__next {
@@ -32,14 +73,140 @@ body {
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--color-ocean);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:active,
 a:hover {
+  color: var(--color-coral);
+}
+
+/* ---- Shared layout helpers ---- */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+.section {
+  padding: 4rem 0;
+}
+@media (min-width: 769px) {
+  .section {
+    padding: 5.5rem 0;
+  }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ocean);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.9em 1.6em;
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.btn:focus-visible {
+  outline: 3px solid var(--color-sky);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--color-coral);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(255, 107, 74, 0.32);
+}
+.btn-primary:hover {
+  background: var(--color-cta-hover);
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(255, 107, 74, 0.4);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
   color: var(--color-ink);
+  border-color: var(--color-border);
+}
+.btn-secondary:hover {
+  color: var(--color-ink);
+  border-color: var(--color-ocean);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+}
+.btn-ghost:hover {
+  color: var(--color-ocean);
+}
+
+/* Arrow that nudges on hover */
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+a:hover > .arrow,
+.btn:hover .arrow,
+.arrow-parent:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ---- Reveal on scroll ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Horizontal scroll rails (mobile) ---- */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-sky);
+  outline-offset: 2px;
 }
 
 .youtube-container {
@@ -57,4 +224,19 @@ a:hover {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

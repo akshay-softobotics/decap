@@ -1,8 +1,9 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import { serialize } from "next-mdx-remote/serialize";
+import remarkGfm from "remark-gfm";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import matter from "gray-matter";
-import { fetchPostContent } from "../../lib/posts";
+import { fetchPostContent, PostContent } from "../../lib/posts";
 import fs from "fs";
 import yaml from "js-yaml";
 import { parseISO } from 'date-fns';
@@ -19,6 +20,9 @@ export type Props = {
   tags: string[];
   author: string;
   description?: string;
+  standfirst?: string;
+  readTimeMinutes: number;
+  relatedPosts: PostContent[];
   source: MDXRemoteSerializeResult;
 };
 
@@ -36,6 +40,9 @@ export default function Post({
   tags,
   author,
   description = "",
+  standfirst,
+  readTimeMinutes,
+  relatedPosts,
   source,
 }: Props) {
   return (
@@ -46,6 +53,9 @@ export default function Post({
       tags={tags}
       author={author}
       description={description}
+      standfirst={standfirst}
+      readTimeMinutes={readTimeMinutes}
+      relatedPosts={relatedPosts}
     >
       <MDXRemote {...source} components={components} />
     </PostLayout>
@@ -66,15 +76,36 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { content, data } = matter(source, {
     engines: { yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object }
   });
-  const mdxSource = await serialize(content, { scope: data });
+  const mdxSource = await serialize(content, {
+    scope: data,
+    // GFM adds table, strikethrough and task-list support.
+    mdxOptions: { remarkPlugins: [remarkGfm] },
+  });
+
+  const current = slugToPostContent[slug] as PostContent;
+  const tags: string[] = data.tags ?? [];
+  const others = fetchPostContent().filter((it) => it.slug !== slug);
+  const byTag = others.filter(
+    (it) => it.tags && it.tags.some((t) => tags.includes(t))
+  );
+  // Prefer tag matches, then top up with recent posts so the grid stays full.
+  const relatedPosts = [
+    ...byTag,
+    ...others.filter((it) => !byTag.includes(it)),
+  ].slice(0, 3);
+
   return {
     props: {
       title: data.title,
       dateString: data.date,
       slug: data.slug,
-      description: "",
+      // Fall back to the generated excerpt so meta tags are never empty.
+      description: data.description ?? current.excerpt,
+      standfirst: data.standfirst ?? data.description ?? null,
       tags: data.tags,
       author: data.author,
+      readTimeMinutes: current.readTimeMinutes,
+      relatedPosts,
       source: mdxSource
     },
   };

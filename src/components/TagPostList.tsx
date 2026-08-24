@@ -15,9 +15,13 @@ type Props = {
 export default function TagPostList({ posts, tag, pagination }: Props) {
   return (
     <div className={"container"}>
-      <h1>
-        All posts / <span>{tag.name}</span>
-      </h1>
+      <header className="tag-head">
+        <span className="eyebrow">Travel tag</span>
+        <h1>
+          #{tag.name}
+        </h1>
+        <p>Family travel stories &amp; tips filed under {tag.name}.</p>
+      </header>
       <ul>
         {posts.map((it, i) => (
           <li key={i}>
@@ -39,22 +43,26 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
         {`
           .container {
             margin: 0 auto;
-            max-width: 1200px;
+            max-width: var(--maxw);
             width: 100%;
-            padding: 2.5rem 1.5rem 4rem;
+            padding: 3rem 1.5rem 4rem;
             display: flex;
             flex-direction: column;
           }
+          .tag-head {
+            margin: 0 0 2.25rem;
+          }
+          .tag-head p {
+            margin: 0.6rem 0 0;
+            color: var(--color-muted);
+            font-size: 1.05rem;
+          }
           h1 {
-            margin: 0 0 2rem;
+            margin: 0.5rem 0 0;
             padding: 0;
             font-family: var(--font-display);
-            font-weight: 500;
-            font-size: 1.75rem;
-            color: var(--color-muted);
-          }
-          h1 span {
-            font-weight: 600;
+            font-weight: 800;
+            font-size: clamp(2rem, 4vw, 2.75rem);
             color: var(--color-ink);
           }
           ul {
@@ -78,9 +86,6 @@ export default function TagPostList({ posts, tag, pagination }: Props) {
           @media (min-width: 1024px) {
             ul {
               grid-template-columns: repeat(3, 1fr);
-            }
-            h1 {
-              font-size: 2rem;
             }
           }
         `}
