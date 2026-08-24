@@ -126,6 +126,11 @@ collections:
       - label: "Title"
         name: "title"
         widget: "string"
+      - label: "Header Image"
+        name: "coverImage"
+        widget: "image"
+        required: false
+        hint: "Displayed as the post's header/cover image"
       - label: "Publish Date"
         name: "date"
         widget: "datetime"
