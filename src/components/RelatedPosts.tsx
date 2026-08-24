@@ -7,7 +7,7 @@ type Props = {
   title?: string;
 };
 
-export default function RelatedPosts({ posts, title = "More from the blog" }: Props) {
+export default function RelatedPosts({ posts, title = "You may also like" }: Props) {
   if (posts.length === 0) {
     return null;
   }

@@ -75,20 +75,18 @@ export default function PostList({
               <p>Try a different search term, or clear the category filter to see every post.</p>
             </div>
           ) : (
-            <>
+            <ul className={"post-list"}>
               {featured && (
-                <div className="featured-slot">
+                <li className="featured-item">
                   <FeaturedPost post={featured} />
-                </div>
+                </li>
               )}
-              <ul className={"post-list"}>
-                {gridPosts.map((it, i) => (
-                  <li key={i}>
-                    <BlogCard post={it} />
-                  </li>
-                ))}
-              </ul>
-            </>
+              {gridPosts.map((it, i) => (
+                <li key={i}>
+                  <BlogCard post={it} />
+                </li>
+              ))}
+            </ul>
           )}
 
           {!isFiltering && (
@@ -143,9 +141,6 @@ export default function PostList({
           flex: 1 1 auto;
           min-width: 0;
         }
-        .featured-slot {
-          margin-bottom: 2.5rem;
-        }
         .search-status {
           margin: 0 0 1.25rem;
           color: var(--color-muted);
@@ -175,23 +170,43 @@ export default function PostList({
           gap: 1.5rem;
           margin-bottom: 2.5rem;
         }
+        .featured-item {
+          grid-column: 1 / -1;
+        }
 
         @media (min-width: 640px) {
           .post-list {
             grid-template-columns: repeat(2, 1fr);
+          }
+          .featured-item {
+            grid-column: span 2;
           }
         }
 
         .pagination-row {
           display: flex;
           align-items: center;
-          gap: 1.5rem;
+          gap: 1rem;
         }
         :global(.next-link) {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4em;
           font-family: var(--font-mono);
-          font-size: 0.875rem;
+          font-size: 0.8125rem;
           font-weight: 500;
-          color: var(--color-accent);
+          letter-spacing: 0.03em;
+          text-transform: uppercase;
+          color: var(--color-ink);
+          background: var(--color-surface);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
+          padding: 0.55em 1rem;
+          transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+        :global(.next-link:hover) {
+          border-color: var(--color-accent);
+          background: var(--color-accent-dim);
         }
 
         @media (min-width: 1024px) {

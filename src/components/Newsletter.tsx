@@ -3,7 +3,7 @@ import { useState } from "react";
 type Props = {
   title?: string;
   description?: string;
-  tone?: "surface" | "ink";
+  tone?: "surface" | "ink" | "dark";
 };
 
 export default function Newsletter({
@@ -56,6 +56,10 @@ export default function Newsletter({
           background: rgba(247, 245, 240, 0.05);
           border: 1px solid var(--color-on-ink-border);
         }
+        .card.dark {
+          background: var(--color-ink);
+          border: 1px solid var(--color-ink);
+        }
         h3 {
           margin: 0 0 0.6rem;
           font-family: var(--font-display);
@@ -63,7 +67,8 @@ export default function Newsletter({
           font-weight: 600;
           color: var(--color-ink);
         }
-        .ink h3 {
+        .ink h3,
+        .dark h3 {
           color: var(--color-on-ink);
         }
         p {
@@ -72,7 +77,8 @@ export default function Newsletter({
           font-size: 0.875rem;
           line-height: 1.5;
         }
-        .ink p {
+        .ink p,
+        .dark p {
           color: var(--color-on-ink-muted);
         }
         .row {
@@ -97,12 +103,14 @@ export default function Newsletter({
           background: var(--color-paper);
           color: var(--color-ink);
         }
-        .ink input {
+        .ink input,
+        .dark input {
           background: rgba(247, 245, 240, 0.08);
           border-color: var(--color-on-ink-border);
           color: var(--color-on-ink);
         }
-        .ink input::placeholder {
+        .ink input::placeholder,
+        .dark input::placeholder {
           color: var(--color-on-ink-muted);
         }
         button {
@@ -126,7 +134,8 @@ export default function Newsletter({
           color: var(--color-accent);
           font-weight: 500;
         }
-        .ink .thanks {
+        .ink .thanks,
+        .dark .thanks {
           color: var(--color-on-ink);
         }
       `}</style>

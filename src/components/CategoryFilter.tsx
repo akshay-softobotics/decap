@@ -37,17 +37,18 @@ export default function CategoryFilter({ tags, active, onChange }: Props) {
           gap: 0.6rem;
         }
         .pill {
-          font-family: var(--font-body);
-          font-size: 0.875rem;
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
           font-weight: 500;
+          letter-spacing: 0.05em;
           color: var(--color-muted);
           background: var(--color-surface);
           border: 1px solid var(--color-border);
-          border-radius: 999px;
-          padding: 0.55em 1.2em;
+          border-radius: var(--radius-sm);
+          padding: 0.6em 1.1em;
           cursor: pointer;
           transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-          text-transform: capitalize;
+          text-transform: uppercase;
         }
         .pill:hover {
           border-color: var(--color-accent);

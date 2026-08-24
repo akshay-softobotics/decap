@@ -25,16 +25,15 @@ export default function BlogCard({ post }: Props) {
         <h3>{post.title}</h3>
         {post.excerpt && <p className="excerpt">{post.excerpt}</p>}
         <div className="meta">
-          {author ? <Author author={author} withAvatar /> : <Date date={parseISO(post.date)} />}
-          <span className="dot" aria-hidden="true">
-            &middot;
-          </span>
+          {author && <Author author={author} withAvatar />}
           <Date date={parseISO(post.date)} />
-          <span className="dot" aria-hidden="true">
-            &middot;
-          </span>
-          <span className="read-time">{post.readTimeMinutes} min read</span>
         </div>
+        <span className="read-more">
+          Read Article
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
       </div>
       <span className="arrow" aria-hidden="true">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -99,8 +98,19 @@ export default function BlogCard({ post }: Props) {
         .meta :global(.name) {
           color: var(--color-muted);
         }
-        .dot {
-          opacity: 0.5;
+        .read-more {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4em;
+          margin-top: 0.9em;
+          font-weight: 500;
+          font-size: 0.875rem;
+          color: var(--color-accent);
+        }
+        .read-more svg {
+          width: 0.9em;
+          height: 0.9em;
+          transition: transform 0.2s ease;
         }
         .arrow {
           position: absolute;
@@ -149,6 +159,9 @@ export default function BlogCard({ post }: Props) {
         .card-link:hover .arrow {
           opacity: 1;
           transform: translateY(0);
+        }
+        .card-link:hover .read-more svg {
+          transform: translateX(3px);
         }
       `}</style>
     </Link>

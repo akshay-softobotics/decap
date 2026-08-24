@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { TagContent } from "../lib/tags";
 import { PostContent } from "../lib/posts";
-import PostCover from "./PostCover";
-import Date from "./Date";
 import Newsletter from "./Newsletter";
-import { parseISO } from "date-fns";
 
 type Props = {
   tagCounts: { tag: TagContent; count: number }[];
@@ -22,10 +19,9 @@ export default function BlogSidebar({ tagCounts, popularPosts }: Props) {
               <li key={post.slug}>
                 <Link href={"/posts/" + post.slug} className="popular-link">
                   <span className="number">{String(i + 1).padStart(2, "0")}</span>
-                  <PostCover post={post} variant="thumb" />
                   <div className="popular-copy">
                     <span className="popular-title">{post.title}</span>
-                    <Date date={parseISO(post.date)} />
+                    <span className="popular-read">Read &middot; {post.readTimeMinutes} min</span>
                   </div>
                 </Link>
               </li>
@@ -46,7 +42,7 @@ export default function BlogSidebar({ tagCounts, popularPosts }: Props) {
         </div>
       </section>
 
-      <Newsletter />
+      <Newsletter tone="dark" />
 
       <style jsx>{`
         .sidebar {
@@ -55,17 +51,14 @@ export default function BlogSidebar({ tagCounts, popularPosts }: Props) {
           gap: 1.5rem;
           flex: 0 0 18rem;
         }
-        .panel {
-          background: var(--color-surface);
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-md);
-          padding: 1.5rem;
-        }
         h3 {
           margin: 0 0 1.25rem;
-          font-family: var(--font-display);
-          font-size: 1.0625rem;
-          font-weight: 600;
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
+          font-weight: 500;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--color-muted);
         }
         .tag-grid {
           display: flex;
@@ -125,10 +118,18 @@ export default function BlogSidebar({ tagCounts, popularPosts }: Props) {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
-          font-size: 0.875rem;
-          font-weight: 500;
+          font-family: var(--font-display);
+          font-size: 0.9375rem;
+          font-weight: 600;
           line-height: 1.35;
-          margin-bottom: 0.25em;
+          margin-bottom: 0.35em;
+        }
+        .popular-read {
+          font-family: var(--font-mono);
+          font-size: 0.6875rem;
+          letter-spacing: 0.03em;
+          text-transform: uppercase;
+          color: var(--color-muted);
         }
       `}</style>
     </aside>
