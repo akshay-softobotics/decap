@@ -14,7 +14,7 @@ import PostNav from "./PostNav";
 import RelatedPosts from "./RelatedPosts";
 import PostCover from "./PostCover";
 import { getAuthor } from "../lib/authors";
-import { getTag } from "../lib/tags";
+import { getTag, TagContent } from "../lib/tags";
 import { PostContent } from "../lib/posts";
 import config from "../lib/config";
 
@@ -49,9 +49,12 @@ export default function PostLayout({
   children,
 }: Props) {
   const articleRef = useRef<HTMLElement>(null);
-  const keywords = tags.map((it) => getTag(it).name);
+  const resolvedTags = tags
+    .map((it) => getTag(it))
+    .filter((it): it is TagContent => Boolean(it));
+  const keywords = resolvedTags.map((it) => it.name);
   const authorContent = getAuthor(author);
-  const primaryTag = tags.length > 0 ? getTag(tags[0]) : undefined;
+  const primaryTag = resolvedTags.length > 0 ? resolvedTags[0] : undefined;
   const url = `/posts/${slug}`;
 
   return (
@@ -101,9 +104,9 @@ export default function PostLayout({
             <div className={styles.content}>{children}</div>
             <div className="tags-share">
               <ul className="tag-list">
-                {tags.map((it, i) => (
-                  <li key={i}>
-                    <TagButton tag={getTag(it)} />
+                {resolvedTags.map((tag) => (
+                  <li key={tag.slug}>
+                    <TagButton tag={tag} />
                   </li>
                 ))}
               </ul>
