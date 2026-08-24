@@ -4,10 +4,10 @@ backend:
   repo: akshay-softobotics/decap
   branch: master
   auth_type: pkce
-  base_url: https://auth.decapbridge.com
+  base_url: https://auth.softobotics.com/sites/79260e97-e3ad-47b7-aa37-c51f65953340
   auth_endpoint: /sites/f0fa5e8c-a101-4387-b320-575294f99051/pkce
   auth_token_endpoint: /sites/f0fa5e8c-a101-4387-b320-575294f99051/token
-  gateway_url: https://gateway.decapbridge.com
+  gateway_url: https://gateway.softobotics.com
 
   # See who did what (optional)
   commit_messages:
@@ -26,7 +26,7 @@ auth:
   avatar_url_claim: avatar_url
 
 # Better Decap + Bridge logo (optional)
-logo_url: https://decapbridge.com/decapcms-with-bridge.svg
+logo_url: https://login.softobotics.com/decapcms-with-bridge.svg
 
 # Add site links in Decap CMS (optional)
 site_url: https://decap.akshay-t.workers.dev
