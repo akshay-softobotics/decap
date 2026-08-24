@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Navigation from "./Navigation";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 type Props = {
@@ -15,7 +15,7 @@ export default function Layout({ children }: Props) {
         <link rel="apple-touch-icon" href="/icon.png" />
         <meta name="theme-color" content="#f7f5f0" />
       </Head>
-      <Navigation />
+      <Navbar />
       <main>{children}</main>
       <Footer />
       <style jsx>

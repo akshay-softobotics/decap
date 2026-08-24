@@ -13,6 +13,8 @@ export type PostContent = {
   readonly fullPath: string;
   readonly excerpt: string;
   readonly readTimeMinutes: number;
+  readonly coverImage?: string;
+  readonly author?: string;
 };
 
 const WORDS_PER_MINUTE = 200;
@@ -68,6 +70,8 @@ export function fetchPostContent(): PostContent[] {
         fullPath: string;
         excerpt: string;
         readTimeMinutes: number;
+        coverImage?: string;
+        author?: string;
       };
       matterData.fullPath = fullPath;
       matterData.excerpt = toExcerpt(matterResult.content);

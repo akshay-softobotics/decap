@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { PostContent } from "../lib/posts";
-import PostItem from "./PostItem";
+import BlogCard from "./BlogCard";
 import Pagination from "./Pagination";
 import BlogHero from "./BlogHero";
 import BlogSidebar from "./BlogSidebar";
+import CategoryFilter from "./CategoryFilter";
+import FeaturedPost from "./FeaturedPost";
 import { TagContent } from "../lib/tags";
 
 type Props = {
@@ -25,43 +27,71 @@ export default function PostList({
   pagination,
 }: Props) {
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState<string | null>(null);
   const trimmed = query.trim().toLowerCase();
-  const isSearching = trimmed.length > 0;
+  const isFiltering = trimmed.length > 0 || category !== null;
 
   const results = useMemo(() => {
-    if (!isSearching) {
+    if (!isFiltering) {
       return posts;
     }
-    return allPosts.filter(
-      (post) =>
+    return allPosts.filter((post) => {
+      const matchesQuery =
+        trimmed.length === 0 ||
         post.title.toLowerCase().includes(trimmed) ||
-        (post.tags ?? []).some((tag) => tag.toLowerCase().includes(trimmed))
-    );
-  }, [isSearching, trimmed, posts, allPosts]);
+        (post.excerpt ?? "").toLowerCase().includes(trimmed) ||
+        (post.tags ?? []).some((tag) => tag.toLowerCase().includes(trimmed));
+      const matchesCategory = category === null || (post.tags ?? []).includes(category);
+      return matchesQuery && matchesCategory;
+    });
+  }, [isFiltering, trimmed, category, posts, allPosts]);
 
   const nextHref =
     pagination.current === 1 ? "/posts/page/2" : `/posts/page/${pagination.current + 1}`;
 
+  const showFeatured = !isFiltering && pagination.current === 1 && results.length > 0;
+  const featured = showFeatured ? results[0] : null;
+  const gridPosts = featured ? results.slice(1) : results;
+
   return (
     <div className="page">
       <BlogHero query={query} onQueryChange={setQuery} />
+      <div className="filter-row">
+        <CategoryFilter tags={tagCounts.map((tc) => tc.tag)} active={category} onChange={setCategory} />
+      </div>
       <div className={"container"}>
         <div className={"posts"}>
-          {isSearching && (
+          {isFiltering && (
             <p className="search-status">
               {results.length === 0
-                ? `No posts match "${query}"`
-                : `${results.length} post${results.length === 1 ? "" : "s"} matching "${query}"`}
+                ? "No matching posts"
+                : `${results.length} post${results.length === 1 ? "" : "s"} found`}
             </p>
           )}
-          <ul className={"post-list"}>
-            {results.map((it, i) => (
-              <li key={i}>
-                <PostItem post={it} />
-              </li>
-            ))}
-          </ul>
-          {!isSearching && (
+
+          {results.length === 0 ? (
+            <div className="empty-state">
+              <h3>No articles found</h3>
+              <p>Try a different search term, or clear the category filter to see every post.</p>
+            </div>
+          ) : (
+            <>
+              {featured && (
+                <div className="featured-slot">
+                  <FeaturedPost post={featured} />
+                </div>
+              )}
+              <ul className={"post-list"}>
+                {gridPosts.map((it, i) => (
+                  <li key={i}>
+                    <BlogCard post={it} />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          {!isFiltering && (
             <div className="pagination-row">
               <Pagination
                 current={pagination.current}
@@ -84,12 +114,17 @@ export default function PostList({
         .page {
           width: 100%;
         }
+        .filter-row {
+          max-width: var(--content-width);
+          margin: 0 auto;
+          padding: 0 1.5rem 2.5rem;
+        }
         .container {
           display: flex;
           align-items: flex-start;
           gap: 3rem;
           margin: 0 auto;
-          max-width: 1200px;
+          max-width: var(--content-width);
           width: 100%;
           padding: 0 1.5rem 4rem;
           box-sizing: border-box;
@@ -108,18 +143,37 @@ export default function PostList({
           flex: 1 1 auto;
           min-width: 0;
         }
+        .featured-slot {
+          margin-bottom: 2.5rem;
+        }
         .search-status {
           margin: 0 0 1.25rem;
           color: var(--color-muted);
           font-family: var(--font-mono);
           font-size: 0.8125rem;
         }
+        .empty-state {
+          padding: 4rem 1.5rem;
+          text-align: center;
+          background: var(--color-surface);
+          border: 1px dashed var(--color-border);
+          border-radius: var(--radius-md);
+        }
+        .empty-state h3 {
+          margin: 0 0 0.5rem;
+          font-family: var(--font-display);
+          font-size: 1.25rem;
+        }
+        .empty-state p {
+          margin: 0;
+          color: var(--color-muted);
+        }
         .post-list {
           flex: 1 0 auto;
           display: grid;
           grid-template-columns: 1fr;
-          gap: 1.25rem;
-          margin-bottom: 2rem;
+          gap: 1.5rem;
+          margin-bottom: 2.5rem;
         }
 
         @media (min-width: 640px) {
