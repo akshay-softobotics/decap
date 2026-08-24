@@ -26,6 +26,7 @@ type Props = {
   author: string;
   description?: string;
   coverImage?: string;
+  bannerImage?: string;
   readTimeMinutes: number;
   headings: Heading[];
   previous?: PostContent;
@@ -41,6 +42,7 @@ export default function PostLayout({
   tags,
   description = "",
   coverImage,
+  bannerImage,
   readTimeMinutes,
   headings,
   previous,
@@ -56,12 +58,13 @@ export default function PostLayout({
   const authorContent = getAuthor(author);
   const primaryTag = resolvedTags.length > 0 ? resolvedTags[0] : undefined;
   const url = `/posts/${slug}`;
+  const heroImage = bannerImage ?? coverImage;
 
   return (
     <Layout>
       <BasicMeta url={url} title={title} keywords={keywords} description={description} />
       <TwitterCardMeta url={url} title={title} description={description} />
-      <OpenGraphMeta url={url} title={title} description={description} image={coverImage} />
+      <OpenGraphMeta url={url} title={title} description={description} image={heroImage} />
       <JsonLdMeta
         url={url}
         title={title}
@@ -69,7 +72,7 @@ export default function PostLayout({
         date={date}
         author={authorContent.name}
         description={description}
-        image={coverImage}
+        image={heroImage}
       />
       <ReadingProgress targetRef={articleRef} />
       <ArticleHeader
@@ -80,9 +83,9 @@ export default function PostLayout({
         date={date}
         readTimeMinutes={readTimeMinutes}
       />
-      {coverImage && (
+      {heroImage && (
         <div className="cover-wrap">
-          <PostCover post={{ slug, title, coverImage } as PostContent} variant="large" />
+          <PostCover post={{ slug, title, coverImage: heroImage } as PostContent} variant="large" />
         </div>
       )}
       <article ref={articleRef} className="article-body">
