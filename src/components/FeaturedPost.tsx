@@ -18,105 +18,125 @@ export default function FeaturedPost({ post }: Props) {
   return (
     <Link href={"/posts/" + post.slug} className="featured">
       <div className="media">
-        <span className="badge">Featured</span>
         <PostCover post={post} variant="large" />
-        <div className="media-meta">
-          {author && <Author author={author} withAvatar />}
-          <Date date={parseISO(post.date)} />
-        </div>
       </div>
       <div className="body">
-        {primaryTag && <span className="category">{primaryTag.name}</span>}
+        <span className="eyebrow">Featured</span>
         <h2>{post.title}</h2>
         {post.excerpt && <p className="excerpt">{post.excerpt}</p>}
+        <div className="meta">
+          <div className="meta-left">
+            {author && <Author author={author} withAvatar />}
+            <Date date={parseISO(post.date)} />
+            {primaryTag && <span className="category">{primaryTag.name}</span>}
+          </div>
+          <span className="read-more">
+            Read Article
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </div>
       </div>
       <style jsx>{`
         :global(.featured) {
           display: flex;
           flex-direction: column;
-          height: 100%;
           color: var(--color-ink);
-          background: var(--color-surface);
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-md);
-          overflow: hidden;
-          transition: box-shadow 0.25s var(--ease-out), border-color 0.25s ease;
         }
         :global(.featured:hover) {
           color: var(--color-ink);
-          border-color: var(--color-accent);
-          box-shadow: var(--shadow-lg);
         }
         .media {
-          position: relative;
+          overflow: hidden;
+          border-radius: var(--radius-lg);
         }
-        .badge {
-          position: absolute;
-          top: 0.9rem;
-          left: 0.9rem;
-          z-index: 1;
-          background: var(--color-cta);
-          color: #fff;
-          font-family: var(--font-mono);
-          font-size: 0.6875rem;
-          font-weight: 500;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-          padding: 0.35em 0.7em;
-          border-radius: var(--radius-sm);
+        .media :global(.cover) {
+          transition: transform 0.5s var(--ease-out);
         }
-        .media-meta {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          padding: 1rem 1.25rem;
-          border-top: 1px solid var(--color-border);
-          font-family: var(--font-mono);
-          font-size: 0.75rem;
-          color: var(--color-muted);
+        :global(.featured:hover) .media :global(.cover) {
+          transform: scale(1.02);
         }
         .body {
-          padding: 0 1.25rem 1.5rem;
+          padding: 1.75rem 0 0;
+          border-top: 1px solid var(--color-border);
+          margin-top: 1.75rem;
         }
-        .category {
-          display: inline-block;
-          margin: 1.1rem 0 0;
+        .eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6em;
           font-family: var(--font-mono);
-          font-size: 0.6875rem;
+          font-size: 0.75rem;
           font-weight: 500;
-          letter-spacing: 0.04em;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: var(--color-accent);
+          color: var(--color-cta);
+        }
+        .eyebrow::before {
+          content: "";
+          display: inline-block;
+          width: 1.5em;
+          height: 2px;
+          background: currentColor;
         }
         h2 {
-          margin: 0.6rem 0 0;
+          margin: 1rem 0 0;
           font-family: var(--font-display);
           font-weight: 600;
-          font-size: clamp(1.375rem, 2.6vw, 1.75rem);
-          line-height: 1.25;
+          font-size: clamp(1.75rem, 4vw, 2.75rem);
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+          max-width: 28ch;
         }
         .excerpt {
-          margin: 0.75rem 0 0;
+          margin: 1rem 0 0;
           color: var(--color-muted);
-          font-size: 0.9375rem;
+          font-size: 1.0625rem;
           line-height: 1.6;
+          max-width: 42rem;
+        }
+        .meta {
+          margin-top: 1.75rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+        .meta-left {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 0.9rem;
+          font-family: var(--font-mono);
+          font-size: 0.8125rem;
+          color: var(--color-muted);
+        }
+        .category {
+          text-transform: capitalize;
+          color: var(--color-accent);
+        }
+        .read-more {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4em;
+          font-weight: 500;
+          font-size: 0.9375rem;
+          color: var(--color-ink);
+        }
+        .read-more svg {
+          width: 0.9em;
+          height: 0.9em;
+          transition: transform 0.2s ease;
+        }
+        :global(.featured:hover) .read-more svg {
+          transform: translateX(3px);
         }
 
-        @media (min-width: 640px) {
-          :global(.featured) {
-            flex-direction: row;
-          }
-          .media {
-            flex: 1 1 46%;
-            display: flex;
-            flex-direction: column;
-          }
-          .media :global(.cover) {
-            flex: 1 0 auto;
-          }
+        @media (min-width: 768px) {
           .body {
-            flex: 1 1 54%;
-            padding: 1.5rem 1.5rem 1.5rem 0;
+            padding: 2.25rem 0 0;
           }
         }
       `}</style>

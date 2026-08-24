@@ -26,11 +26,9 @@ export default function ArticleHeader({
       <Link href="/posts" className="back-link">
         ← Back to blog
       </Link>
-      {category && (
-        <Link href={`/posts/tags/${category.slug}`} className="category">
-          {category.name}
-        </Link>
-      )}
+      <span className="kicker">
+        {category ? category.name : "Blog"}
+      </span>
       <h1>{title}</h1>
       {description && <p className="description">{description}</p>}
       <div className="meta">
@@ -48,39 +46,46 @@ export default function ArticleHeader({
         .article-header {
           max-width: 46rem;
           margin: 0 auto;
-          padding: 3rem 1.5rem 0;
+          padding: 6rem 1.5rem 0;
           text-align: left;
         }
         :global(.back-link) {
-          display: block;
-          margin-bottom: 1.75rem;
-          font-family: var(--font-mono);
+          display: inline-block;
+          margin-bottom: 2rem;
+          font-family: var(--font-body);
           font-size: 0.875rem;
-          color: var(--color-accent);
           font-weight: 500;
+          color: var(--color-muted);
         }
         :global(.back-link:hover) {
-          text-decoration: underline;
+          color: var(--color-ink);
         }
-        :global(.category) {
-          display: inline-block;
+        .kicker {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6em;
           font-family: var(--font-mono);
           font-size: 0.75rem;
           font-weight: 500;
-          text-transform: capitalize;
-          color: var(--color-accent);
-          background: var(--color-accent-dim);
-          border-radius: 999px;
-          padding: 0.35em 0.9em;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--color-cta);
           margin-bottom: 1.25rem;
+        }
+        .kicker::before {
+          content: "";
+          display: inline-block;
+          width: 1.5em;
+          height: 2px;
+          background: currentColor;
         }
         h1 {
           margin: 0;
           font-family: var(--font-display);
           font-weight: 600;
-          font-size: clamp(2rem, 5vw, 2.875rem);
-          line-height: 1.16;
-          letter-spacing: -0.015em;
+          font-size: clamp(2.25rem, 5.5vw, 3.25rem);
+          line-height: 1.12;
+          letter-spacing: -0.02em;
           color: var(--color-ink);
         }
         .description {
