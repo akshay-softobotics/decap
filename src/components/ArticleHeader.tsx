@@ -23,31 +23,61 @@ export default function ArticleHeader({
 }: Props) {
   return (
     <header className="article-header">
-      <Link href="/posts" className="back-link">
-        ← Back to blog
-      </Link>
-      <span className="kicker">
-        {category ? category.name : "Blog"}
-      </span>
-      <h1>{title}</h1>
-      {description && <p className="description">{description}</p>}
-      <div className="meta">
-        <Author author={author} withAvatar />
-        <span className="dot" aria-hidden="true">
-          &middot;
+      <div className="header-content">
+        <Link href="/posts" className="back-link">
+          ← Back to blog
+        </Link>
+        <span className="kicker">
+          {category ? category.name : "Blog"}
         </span>
-        <Date date={date} />
-        <span className="dot" aria-hidden="true">
-          &middot;
-        </span>
-        <span className="read-time">{readTimeMinutes} min read</span>
+        <h1>{title}</h1>
+        {description && <p className="description">{description}</p>}
+        <div className="meta">
+          <Author author={author} withAvatar />
+          <span className="dot" aria-hidden="true">
+            &middot;
+          </span>
+          <Date date={date} />
+          <span className="dot" aria-hidden="true">
+            &middot;
+          </span>
+          <span className="read-time">{readTimeMinutes} min read</span>
+        </div>
       </div>
+      <div className="toc-spacer" aria-hidden="true" />
       <style jsx>{`
         .article-header {
-          max-width: 48rem;
+          max-width: var(--content-width);
           margin: 0 auto;
           padding: 3.5rem 1.5rem 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .header-content {
+          width: 100%;
+          max-width: 48rem;
+          margin: 0 auto;
           text-align: left;
+        }
+        .toc-spacer {
+          display: none;
+        }
+        @media (min-width: 1024px) {
+          .article-header {
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 3rem;
+          }
+          .header-content {
+            margin: 0;
+            order: 1;
+          }
+          .toc-spacer {
+            display: block;
+            flex: 0 0 14rem;
+            order: 2;
+          }
         }
         :global(.back-link) {
           display: inline-block;
