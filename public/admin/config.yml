@@ -3,8 +3,8 @@ backend:
   name: git-gateway
   repo: akshay-softobotics/decap
   branch: master
-  identity_url: https://auth.softobotics.com/sites/79260e97-e3ad-47b7-aa37-c51f65953340
-  gateway_url: https://gateway.softobotics.com
+  identity_url: https://auth.dripfunnel.com/sites/1629b655-73af-443d-a7d5-018a00a4c3e4
+  gateway_url: https://gateway.dripfunnel.com
 
   # See who did what (optional)
   commit_messages:
@@ -16,7 +16,7 @@ backend:
     openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
 
 # Better Decap + Bridge logo (optional)
-logo_url: https://login.softobotics.com/decapcms-with-bridge.svg
+logo_url: https://blog.dripfunnel.com/decapcms-with-bridge.svg
 
 # Add site links in Decap CMS (optional)
 site_url: https://decap.akshay-t.workers.dev
