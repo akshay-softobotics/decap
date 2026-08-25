@@ -2,6 +2,17 @@
 
 Guidance for Claude Code (or any AI agent / developer) working in this repository.
 
+## Design-only tasks (`DESIGN_PROMPT.md`)
+
+If the user's request is (or starts with) the prompt from `DESIGN_PROMPT.md`, that
+prompt is **self-contained and authoritative** for scope — it already lists every
+file that's off-limits and every file where design changes are allowed. Do not
+re-derive this by exploring the codebase or re-reading this file's Project
+Structure/Core Functionality sections first: just follow the allow/deny lists in
+the pasted prompt directly. Only fall back to reading this file or the wider repo
+if the request goes outside what `DESIGN_PROMPT.md` covers, or its own rule 7
+(ambiguous/out-of-scope request) triggers.
+
 ## What this project is
 
 A statically-exported Next.js business site + blog ("Fuller" branding by default) with:
@@ -41,37 +52,8 @@ Everything else is fair game for rebranding without asking:
 
 **Preserve core functionality unless the user explicitly asks for a behavioral/architectural change.** If a request is ambiguous about whether it wants a cosmetic tweak or a structural change, read the relevant code first (don't guess), then make the minimal change that satisfies the request without altering the mechanics in the "core functionality" list above. If a request *does* require touching core functionality (e.g. switching the CMS backend, dropping static export, changing the styling approach), it should be done deliberately and explicitly — not as a side effect of an unrelated task.
 
-## Project structure
+## More detail
 
-```
-content/posts/*.mdx       Blog post content (frontmatter + MDX body)
-meta/*.yml                Structured content: authors, tags, services, projects, features, faq
-config.json               Site-wide metadata (title, description, keywords, socials)
-public/admin/             Decap CMS admin app (config.yml = collections/fields, index.html = loader + preview templates)
-public/styles/            Global CSS + MDX content CSS (loaded by _app.tsx AND by the CMS preview pane)
-public/images/            Static images referenced by content/config (served at /images/*)
-src/pages/                Next.js pages (file-based routing); posts/[post].tsx, posts/page/[page].tsx, posts/tags/[[...slug]].tsx are dynamic
-src/components/           React components, one concern each, styled via styled-jsx
-src/components/meta/      <head> meta tag components (BasicMeta, OpenGraphMeta, TwitterCardMeta, JsonLdMeta)
-src/lib/                  Data loaders/types for content (posts.ts, authors.ts, tags.ts, services.ts, projects.ts, features.ts, faq.ts, nav.ts, config.ts, pagination.ts)
-src/__tests__/            Jest tests
-```
-
-## Commands
-
-```
-npm run dev       # next dev — local dev server
-npm run build     # next build — static export to out/
-npm run preview   # build then wrangler dev — preview the Cloudflare Worker locally
-npm run deploy    # build then wrangler deploy — deploy to Cloudflare Workers
-npm test          # jest
-```
-
-Always run `npm run build` after any change touching `getStaticProps`/`getStaticPaths`, content shapes in `meta/*.yml`, or `src/lib/*.ts` — static export will fail loudly (e.g. prop serialization errors) if a data shape is wrong, and that's the fastest way to catch it.
-
-## Known constraints / gotchas
-
-- **No server runtime at request time** — this is a fully static export. Anything requiring a database, session, or server-side computation at request time is out of scope unless the fork owner explicitly wants to drop static export and move to a different Next.js output mode.
-- **`getStaticProps` props must never contain `undefined`**, including nested optional fields (e.g. `tags?: string[]` on `PostContent`). Default optionals to `[]`/`null` before returning as props — see the pattern in `src/pages/posts/[post].tsx`.
-- **Post slug must match filename** exactly (`src/lib/posts.ts` enforces this at build time).
-- **PKCE auth in `public/admin/config.yml`** points at a third-party hosted DecapBridge/DripFunnel git-gateway service tied to specific site IDs. This is credential/account-specific — a fork will need its own git-gateway backend (Decap CMS supports several: Netlify Identity, GitHub OAuth, custom PKCE providers, etc.) rather than reusing these values.
+Project structure, npm commands, and known constraints/gotchas live in
+`docs/ARCHITECTURE.md` — read it on demand for non-design work (features, data
+shape changes, build/deploy issues). Skip it for `DESIGN_PROMPT.md`-driven tasks.
