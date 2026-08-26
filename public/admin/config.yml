@@ -2,7 +2,7 @@
 backend:
   name: git-gateway
   repo: akshay-softobotics/decap
-  branch: main
+  branch: master
   identity_url: https://auth.dripfunnel.com/sites/1629b655-73af-443d-a7d5-018a00a4c3e4
   gateway_url: https://gateway.dripfunnel.com
 

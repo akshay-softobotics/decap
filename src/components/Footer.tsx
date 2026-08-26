@@ -69,7 +69,6 @@ export default function Footer() {
         .site-footer {
           background: var(--color-ink-section);
           color: var(--color-on-ink);
-          margin-top: 6rem;
         }
         .top {
           max-width: var(--content-width);
