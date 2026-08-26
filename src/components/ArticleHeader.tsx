@@ -80,7 +80,7 @@ export default function ArticleHeader({
           }
         }
         :global(.back-link) {
-          display: inline-block;
+          display: block;
           margin-bottom: 2rem;
           font-family: var(--font-body);
           font-size: 0.875rem;
